@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxcib8pe1cic1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lmwt3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_efmh0"]
+
+[node name="Dumbells" type="Node2D"]
+
+[node name="NodeAlpha" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NodeAlpha"]
+shape = SubResource("CircleShape2D_lmwt3")
+
+[node name="NodeBeta" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NodeBeta"]
+shape = SubResource("CircleShape2D_efmh0")
