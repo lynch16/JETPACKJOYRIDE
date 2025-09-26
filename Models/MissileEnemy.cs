@@ -16,6 +16,7 @@ public partial class MissileEnemy : Area2D
 
     private bool isLaunched = false;
     private bool isDieing = false;
+    private bool isPlayerFollower = false;
 
     public override void _Ready()
     {
@@ -26,11 +27,21 @@ public partial class MissileEnemy : Area2D
         _warningSprite = GetNode<Sprite2D>("Warning");
         GetNode<Timer>("LaunchTimer").Start();
 
-        var playerPosition = _player.GetPosition();
-        Position = new Vector2(_screenSize.X - _screenWarningOffset, playerPosition.Y);
+        Position = new Vector2(_screenSize.X - _screenWarningOffset, 0);
 
         _warningSprite.Show();
         // TODO:  Start warning sprite animation (flashing)
+    }
+
+    public void SetPlayerFollower(bool isFollower)
+    {
+        isPlayerFollower = isFollower;
+
+        if (isPlayerFollower)
+        {
+            var playerPosition = _player.GetPosition();
+            Position = new Vector2(_screenSize.X - _screenWarningOffset, playerPosition.Y);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -38,7 +49,7 @@ public partial class MissileEnemy : Area2D
         if (isDieing) { return; }
 
         // Before launch, follow player Y position with a slight delay
-        if (!isLaunched)
+        if (!isLaunched && isPlayerFollower)
         {
             var playerPosition = _player.GetPosition();
             var targetPosition = new Vector2(

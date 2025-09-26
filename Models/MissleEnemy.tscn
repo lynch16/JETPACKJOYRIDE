@@ -21,8 +21,10 @@ shape = SubResource("CapsuleShape2D_a7tgf")
 
 [node name="LaunchTimer" type="Timer" parent="."]
 wait_time = 3.0
+one_shot = true
 
 [node name="ExplosionTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="Warning" type="Sprite2D" parent="."]
 texture = ExtResource("3_4ybwe")

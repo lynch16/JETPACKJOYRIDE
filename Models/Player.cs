@@ -83,6 +83,6 @@ public partial class Player : CharacterBody2D
         // TODO: Trigger death animation
         EmitSignal(SignalName.Hit);
         // Must be deferred as we can't change physics properties on a physics callback.
-        SetPhysicsProcess(false);
+        //SetPhysicsProcess(false);
     }
 }

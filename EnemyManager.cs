@@ -5,7 +5,7 @@ using System;
 public partial class EnemyManager : Node
 {
     [Export]
-    public PackedScene MissileEnemyScene { get; set; }
+    public PackedScene MissleEnemyScene { get; set; }
 
     private PackedScene _nextEnemey {  get; set; }
     private PackedScene[] _enemyTypes { get; set; }
@@ -13,7 +13,7 @@ public partial class EnemyManager : Node
     public override void _Ready()
     {
         _enemyTypes = [
-            MissileEnemyScene
+            MissleEnemyScene
         ];
     }
 
@@ -31,6 +31,10 @@ public partial class EnemyManager : Node
     {
         var enemy = _nextEnemey.Instantiate();
         AddChild(enemy);
+        if (enemy.HasMethod("SetPlayerFollower"))
+        {
+            (enemy as MissileEnemy).SetPlayerFollower(true);
+        }
 
         _nextEnemey = null;
     }

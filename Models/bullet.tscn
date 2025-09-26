@@ -19,6 +19,7 @@ shape = SubResource("CapsuleShape2D_qnqbc")
 
 [node name="ExplosionTimer" type="Timer" parent="."]
 wait_time = 0.1
+one_shot = true
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="timeout" from="ExplosionTimer" to="." method="OnExplosionTimerEnd"]
