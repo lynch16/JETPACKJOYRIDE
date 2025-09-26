@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5fch4nnpb10s"]
+
+[ext_resource type="Script" uid="uid://1ts15jeg86ck" path="res://Models/Bullet.cs" id="1_qnqbc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nereo"]
+
+[node name="Bullet" type="CharacterBody2D"]
+script = ExtResource("1_qnqbc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_nereo")

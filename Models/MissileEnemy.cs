@@ -53,7 +53,7 @@ public partial class MissileEnemy : CharacterBody2D
                 // Only explode when hitting player; move through everything else
                 if (collider is Player)
                 {
-                    (collider as Player).Hit();
+                    (collider as Player).OnHit();
                     Hit();
                     break;
                 } else

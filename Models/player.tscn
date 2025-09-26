@@ -14,3 +14,6 @@ sprite_frames = SubResource("SpriteFrames_sh265")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_sh265")
+
+[node name="BulletSpawnPoint" type="Node2D" parent="."]
+position = Vector2(-15, 10)
