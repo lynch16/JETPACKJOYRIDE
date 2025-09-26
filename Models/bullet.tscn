@@ -1,13 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5fch4nnpb10s"]
+[gd_scene load_steps=4 format=3 uid="uid://b5fch4nnpb10s"]
 
 [ext_resource type="Script" uid="uid://1ts15jeg86ck" path="res://Models/Bullet.cs" id="1_qnqbc"]
+[ext_resource type="Texture2D" uid="uid://bu66uf48ktmcm" path="res://Assets/Sprites/Bullet.png" id="2_2lpa5"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nereo"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qnqbc"]
+radius = 2.0
+height = 10.0
 
-[node name="Bullet" type="CharacterBody2D"]
+[node name="Bullet" type="Area2D"]
 script = ExtResource("1_qnqbc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2lpa5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_nereo")
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_qnqbc")
+
+[node name="ExplosionTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="timeout" from="ExplosionTimer" to="." method="OnExplosionTimerEnd"]

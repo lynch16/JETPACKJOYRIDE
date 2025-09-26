@@ -1,15 +1,17 @@
 using Godot;
 using System;
 
-public partial class MissileEnemy : CharacterBody2D
+public partial class MissileEnemy : Area2D
 {
     private Player _player;
     private Sprite2D _missileSprite;
     private Sprite2D _warningSprite;
 
     private Vector2 _direction = Vector2.Left;
-    private float _launchSpeed = 10f;
-    private float _followPlayerSpeed = 1f;
+    private Vector2 _velcoity = Vector2.Zero;
+    private float _launchSpeed = 2000f;
+    private float _followPlayerSpeed = 10f;
+    private float _screenWarningOffset = 10f;
     private Vector2 _screenSize;
 
     private bool isLaunched = false;
@@ -18,11 +20,14 @@ public partial class MissileEnemy : CharacterBody2D
     public override void _Ready()
     {
         _screenSize = GetViewportRect().Size;
-        _player = GetNode<Player>("/Main/World/Player");
+        _player = GetNode<Player>("/root/Main/World/Player");
         _missileSprite = GetNode<Sprite2D>("Missile");
         _missileSprite.Hide();
         _warningSprite = GetNode<Sprite2D>("Warning");
         GetNode<Timer>("LaunchTimer").Start();
+
+        var playerPosition = _player.GetPosition();
+        Position = new Vector2(_screenSize.X - _screenWarningOffset, playerPosition.Y);
 
         _warningSprite.Show();
         // TODO:  Start warning sprite animation (flashing)
@@ -37,40 +42,34 @@ public partial class MissileEnemy : CharacterBody2D
         {
             var playerPosition = _player.GetPosition();
             var targetPosition = new Vector2(
-                x: _screenSize.X - 10,
+                x: _screenSize.X - _screenWarningOffset,
                 y: playerPosition.Y
             );
             Position = Position.Lerp(targetPosition, _followPlayerSpeed * (float)delta);
-
-        } else
+        }
+        else
         {
-            var collision = MoveAndCollide(Velocity * (float)delta);
-
-            while (collision != null)
-            {
-                var collider = collision.GetCollider();
-
-                // Only explode when hitting player; move through everything else
-                if (collider is Player)
-                {
-                    (collider as Player).OnHit();
-                    Hit();
-                    break;
-                } else
-                {
-                    var remainder = collision.GetRemainder();
-                    collision = MoveAndCollide(remainder);
-                }
-            }
+            Position += _velcoity * (float)delta;
         }
         
+    }
+
+    public void OnBodyEntered(Node2D body)
+    {
+        if (body is Player)
+        {
+            (body as Player).OnHit();
+            Hit();
+        }
     }
 
     public void OnLaunchTimerEnd()
     {
         _warningSprite.Hide();
         _missileSprite.Show();
-        Velocity = _launchSpeed * _direction;
+        Position = new Vector2(_screenSize.X + _screenWarningOffset, Position.Y);
+
+        _velcoity = _launchSpeed * _direction;
         isLaunched = true;
         // TODO:  Start missile animation
     }

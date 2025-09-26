@@ -6,5 +6,6 @@
 script = ExtResource("1_drk3g")
 
 [node name="EnemySpawnTimer" type="Timer" parent="."]
-wait_time = 5.0
-autostart = true
+wait_time = 10.0
+
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="OnEnemySpawnTimerEnd"]

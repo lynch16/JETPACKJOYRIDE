@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-public partial class Bullet : CharacterBody2D
+public partial class Bullet : Area2D
 {
     private Vector2 _direction = Vector2.Down;
-    private float _launchSpeed = 5f;
+    private float _launchSpeed = 500f;
     private bool isDieing = false;
 
     public override void _Ready()
@@ -14,15 +14,8 @@ public partial class Bullet : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        var collision = MoveAndCollide(Velocity * (float)delta);
-
-        while (collision != null)
-        {
-            var collider = collision.GetCollider();
-            Hit();
-        }
-
-        Velocity = _launchSpeed * _direction * (float)delta;
+        var velocity = _launchSpeed * _direction * (float)delta;
+        Position += velocity;
     }
 
     public void OnExplosionTimerEnd()
@@ -31,9 +24,10 @@ public partial class Bullet : CharacterBody2D
         QueueFree();
     }
 
-    public void Hit()
+    private void OnBodyEntered(Node2D body)
     {
         isDieing = true;
+        SetPhysicsProcess(false);
         GetNode<Timer>("ExplosionTimer").Start();
         // TODO:  Start explosion animation
     }

@@ -1,15 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://5qfwupwkjgdn"]
+[gd_scene load_steps=5 format=3 uid="uid://5qfwupwkjgdn"]
 
 [ext_resource type="Script" uid="uid://d0xfk2dmd32k" path="res://Models/MissileEnemy.cs" id="1_vge7o"]
+[ext_resource type="Texture2D" uid="uid://c00gss416jy5j" path="res://Assets/Sprites/Missile.png" id="2_ay8wp"]
+[ext_resource type="Texture2D" uid="uid://cd56i62fwfymb" path="res://Assets/Sprites/Warning.png" id="3_4ybwe"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a7tgf"]
+radius = 4.00009
+height = 31.9998
 
-[node name="MissileEnemy" type="CharacterBody2D"]
+[node name="MissileEnemy" type="Area2D"]
 script = ExtResource("1_vge7o")
 
 [node name="Missile" type="Sprite2D" parent="."]
+texture = ExtResource("2_ay8wp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
 rotation = 1.57071
 shape = SubResource("CapsuleShape2D_a7tgf")
 
@@ -19,3 +25,8 @@ wait_time = 3.0
 [node name="ExplosionTimer" type="Timer" parent="."]
 
 [node name="Warning" type="Sprite2D" parent="."]
+texture = ExtResource("3_4ybwe")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="timeout" from="LaunchTimer" to="." method="OnLaunchTimerEnd"]
+[connection signal="timeout" from="ExplosionTimer" to="." method="OnExplosionTimerEnd"]

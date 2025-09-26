@@ -9,11 +9,15 @@ public partial class Player : CharacterBody2D
     [Export]
     public PackedScene BulletScene { get; set; }
 
+    [Export]
+    private float _flightSpeed = 8000f;
+    [Export]
+    private float _fallSpeed = 10000f;
+
     public Vector2 ScreenSize;
 
     private bool isRunning;
-    private float _fallSpeed = 5f;
-    private float _flightSpeed = 5f;
+    private bool _bulletSpawned = false;
 
     private Node2D _bulletSpawnPoint;
 
@@ -21,12 +25,37 @@ public partial class Player : CharacterBody2D
     {
         ScreenSize = GetViewportRect().Size;
         _bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
-        //GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
-        //SetProcess(false);
+        //SetPhysicsProcess(false);
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
+        if (Input.IsActionJustPressed("move_up"))
+        {
+            isRunning = false;
+            GD.Print("Running animation stop");
+        }
+
+        if (Input.IsActionPressed("move_up"))
+        {
+            Velocity = Vector2.Up * _flightSpeed * (float)delta;
+
+            if (!_bulletSpawned)
+            {
+                Bullet bullet = BulletScene.Instantiate<Bullet>();
+                bullet.Position = _bulletSpawnPoint.Position;
+                AddChild(bullet);
+
+                _bulletSpawned = true;
+                GetNode<Timer>("BulletSpawnTimer").Start();
+            }
+        } else
+        {
+            Velocity = Vector2.Down * _fallSpeed * (float)delta;
+        }
+
+        MoveAndSlide();
+
         // TODO: If on ground, running animation
         if (IsOnFloor())
         {
@@ -36,31 +65,17 @@ public partial class Player : CharacterBody2D
                 isRunning = true;
             }
         }
-
-        if (Input.IsActionJustPressed("move_up"))
-        {
-            isRunning = false;
-            GD.Print("Running animation stop");
-        }
-
-        if (Input.IsActionPressed("move_up"))
-        {
-            Velocity += Vector2.Up * _flightSpeed * (float)delta;
-
-            Bullet bullet = BulletScene.Instantiate<Bullet>();
-            bullet.Position = _bulletSpawnPoint.Position;
-            AddChild(bullet);
-
-        } else if (!IsOnFloor())
-        {
-            Velocity += Vector2.Down * _fallSpeed * (float)delta;
-        }
     }
+
+    public void OnBulletTimerSpawnEnd()
+    {
+        _bulletSpawned = false;
+    }
+
     public void Start(Vector2 position)
     {
-        SetProcess(true);
+        SetPhysicsProcess(true);
         Position = position;
-        GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
     }
 
     public void OnHit()
@@ -68,7 +83,6 @@ public partial class Player : CharacterBody2D
         // TODO: Trigger death animation
         EmitSignal(SignalName.Hit);
         // Must be deferred as we can't change physics properties on a physics callback.
-        GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-        SetProcess(false);
+        SetPhysicsProcess(false);
     }
 }

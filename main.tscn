@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvt2jc0f1shf1"]
+[gd_scene load_steps=7 format=3 uid="uid://bvt2jc0f1shf1"]
 
 [ext_resource type="Script" uid="uid://bmymwxmtndgte" path="res://Main.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://crxefok6puy3u" path="res://Models/player.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://b5fch4nnpb10s" path="res://Models/bullet.tscn" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://cqhg7gbm332l5" path="res://Models/EnemyManager.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://5qfwupwkjgdn" path="res://Models/MissleEnemy.tscn" id="5_lquwl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(1509, 50)
@@ -12,18 +14,17 @@ script = ExtResource("1_ig7tw")
 
 [node name="World" type="Node" parent="."]
 
-[node name="Floor" type="Area2D" parent="World"]
+[node name="Player" parent="World" instance=ExtResource("2_0xm2m")]
+position = Vector2(154, 582)
+BulletScene = ExtResource("3_1bvp3")
+
+[node name="Floor" type="CharacterBody2D" parent="World"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Floor"]
 position = Vector2(464.5, 623)
 shape = SubResource("RectangleShape2D_ig7tw")
 
-[node name="Player" parent="World" instance=ExtResource("2_0xm2m")]
-position = Vector2(35, 582)
-
-[node name="PlayerStartPoint" type="Node2D" parent="World"]
-position = Vector2(153, 587)
-
 [node name="Utilities" type="Node" parent="."]
 
 [node name="EnemyManager" parent="Utilities" instance=ExtResource("3_h2yge")]
+MissileEnemyScene = ExtResource("5_lquwl")
