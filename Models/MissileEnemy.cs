@@ -62,6 +62,12 @@ public partial class MissileEnemy : Area2D
         {
             Position += _velcoity * (float)delta;
         }
+
+        // Dequeue if has flowed off screne
+        if (Position.X < -100)
+        {
+            QueueFree();
+        }
         
     }
 

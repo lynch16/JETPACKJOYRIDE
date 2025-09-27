@@ -2,10 +2,12 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public partial class EnemyManager : Node
+public partial class SpawnManager : Node
 {
     [Export]
     public PackedScene MissleEnemyScene { get; set; }
+    [Export]
+    public PackedScene ElectricDumbellsScene { get; set; }
 
     private PackedScene _nextEnemey {  get; set; }
     private PackedScene[] _enemyTypes { get; set; }
@@ -13,7 +15,8 @@ public partial class EnemyManager : Node
     public override void _Ready()
     {
         _enemyTypes = [
-            MissleEnemyScene
+            MissleEnemyScene,
+            ElectricDumbellsScene
         ];
     }
 
@@ -23,7 +26,7 @@ public partial class EnemyManager : Node
         {
             var _newEnemyType = GD.Randi() % _enemyTypes.Length;
             _nextEnemey = _enemyTypes[_newEnemyType];
-            GetNode<Timer>("EnemySpawnTimer").Start();
+            GetNode<Timer>("SpawnTimer").Start();
         }
     }
 
