@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvt2jc0f1shf1"]
+[gd_scene load_steps=12 format=3 uid="uid://bvt2jc0f1shf1"]
 
 [ext_resource type="Script" uid="uid://bmymwxmtndgte" path="res://Main.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://crxefok6puy3u" path="res://Models/player.tscn" id="2_0xm2m"]
@@ -6,9 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://brxke4tjw0xwo" path="res://Models/SpawnManager.tscn" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://5qfwupwkjgdn" path="res://Models/MissleEnemy.tscn" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bxcib8pe1cic1" path="res://Models/ElectricDumbells.tscn" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://i5l5hutkqfyb" path="res://ScoreManager.cs" id="7_272bh"]
+[ext_resource type="Script" uid="uid://c0ex7vxsvq4i2" path="res://SaveManager.cs" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://bo6fd1r6fdngu" path="res://hud.tscn" id="9_kek77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
-size = Vector2(1509, 50)
+size = Vector2(1233, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
 size = Vector2(336, 22)
@@ -23,9 +26,11 @@ position = Vector2(154, 582)
 BulletScene = ExtResource("3_1bvp3")
 
 [node name="Floor" type="CharacterBody2D" parent="World"]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Floor"]
-position = Vector2(464.5, 623)
+position = Vector2(602.5, 623)
 shape = SubResource("RectangleShape2D_ig7tw")
 
 [node name="Ceiling" type="CharacterBody2D" parent="World"]
@@ -39,3 +44,19 @@ shape = SubResource("RectangleShape2D_lquwl")
 [node name="SpawnManager" parent="Utilities" instance=ExtResource("4_lquwl")]
 MissleEnemyScene = ExtResource("5_lquwl")
 ElectricDumbellsScene = ExtResource("6_7mycd")
+
+[node name="ScoreManager" type="Node" parent="Utilities"]
+script = ExtResource("7_272bh")
+
+[node name="SaveManager" type="Node" parent="Utilities"]
+script = ExtResource("8_5vw27")
+
+[node name="HUD" parent="." instance=ExtResource("9_kek77")]
+
+[connection signal="GameOver" from="." to="Utilities/SpawnManager" method="OnGameOver"]
+[connection signal="GameOver" from="." to="Utilities/ScoreManager" method="OnGameOver"]
+[connection signal="GameOver" from="." to="HUD" method="OnGameOver"]
+[connection signal="Hit" from="World/Player" to="." method="OnPlayerHit"]
+[connection signal="Start" from="HUD" to="World/Player" method="OnStart"]
+[connection signal="Start" from="HUD" to="Utilities/SpawnManager" method="OnStart"]
+[connection signal="Start" from="HUD" to="Utilities/ScoreManager" method="OnStart"]

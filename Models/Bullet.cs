@@ -3,7 +3,7 @@ using System;
 
 public partial class Bullet : Area2D
 {
-    private Vector2 _direction = Vector2.Down;
+    public Vector2 _direction = Vector2.Down;
     private float _launchSpeed = 500f;
     private bool isDieing = false;
 

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo6fd1r6fdngu"]
+
+[ext_resource type="Script" uid="uid://42jdx1je2xvc" path="res://Hud.cs" id="1_37p78"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_37p78"]
+font_color = Color(0.417282, 0.622036, 0.957308, 1)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_37p78")
+
+[node name="StartButton" type="Button" parent="."]
+offset_left = 548.0
+offset_top = 317.0
+offset_right = 594.0
+offset_bottom = 348.0
+text = "Start"
+
+[node name="Score" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
+
+[node name="HighScore" type="Label" parent="."]
+offset_top = 24.0
+offset_right = 40.0
+offset_bottom = 47.0
+text = "0m"
+label_settings = SubResource("LabelSettings_37p78")
+
+[connection signal="button_up" from="StartButton" to="." method="OnStartButtonClicked"]

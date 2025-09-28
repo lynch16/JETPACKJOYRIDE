@@ -20,14 +20,21 @@ public partial class SpawnManager : Node
         ];
     }
 
-    public override void _Process(double delta)
+    public void OnStart()
     {
-        if (_nextEnemey == null)
-        {
-            var _newEnemyType = GD.Randi() % _enemyTypes.Length;
-            _nextEnemey = _enemyTypes[_newEnemyType];
-            GetNode<Timer>("SpawnTimer").Start();
-        }
+        StartSpawnTimer();
+    }
+
+    public void OnGameOver()
+    {
+        GetNode<Timer>("SpawnTimer").Stop(); // Halt additional spawns
+    }
+
+    private void StartSpawnTimer()
+    {
+        var _newEnemyType = GD.Randi() % _enemyTypes.Length;
+        _nextEnemey = _enemyTypes[_newEnemyType];
+        GetNode<Timer>("SpawnTimer").Start();
     }
 
     public void OnEnemySpawnTimerEnd()
@@ -40,6 +47,7 @@ public partial class SpawnManager : Node
         }
 
         _nextEnemey = null;
+        StartSpawnTimer();
     }
 }
 

@@ -74,6 +74,8 @@ public partial class ElectricDumbells : Area2D
         Rotation = (float)GD.RandRange(0, Math.Tau);
 
         _dumbellEnabled = true;
+
+        GetNode<Hud>("/root/Main/HUD").Start += OnStart;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -93,6 +95,12 @@ public partial class ElectricDumbells : Area2D
         if (body is Player)
         {
             (body as Player).OnHit();
+            SetPhysicsProcess(false);
         }
+    }
+
+    public void OnStart()
+    {
+        SetPhysicsProcess(true);
     }
 }

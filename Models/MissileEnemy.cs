@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection.Metadata;
 
 public partial class MissileEnemy : Area2D
 {
@@ -31,6 +32,8 @@ public partial class MissileEnemy : Area2D
 
         _warningSprite.Show();
         // TODO:  Start warning sprite animation (flashing)
+
+        GetNode<Main>("/root/Main").GameOver += OnGameOver;
     }
 
     public void SetPlayerFollower(bool isFollower)
@@ -76,6 +79,7 @@ public partial class MissileEnemy : Area2D
         if (body is Player)
         {
             (body as Player).OnHit();
+            SetPhysicsProcess(false);
             Hit();
         }
     }
@@ -103,5 +107,11 @@ public partial class MissileEnemy : Area2D
         isDieing = true;
         GetNode<Timer>("ExplosionTimer").Start();
         // TODO:  Start explosion animation
+    }
+
+    // Detonate all missiles on GameOver
+    private void OnGameOver()
+    {
+        Hit();
     }
 }

@@ -16,8 +16,12 @@ public partial class Player : CharacterBody2D
 
     public Vector2 ScreenSize;
 
+    private Vector2[] directions = [Vector2.Left, Vector2.Down, Vector2.Right];
+
     private bool isRunning;
     private bool _bulletSpawned = false;
+    private int _bulletSpawnDirection = 1;
+    private int _bulletSpread = 4;
 
     private Node2D _bulletSpawnPoint;
 
@@ -44,6 +48,13 @@ public partial class Player : CharacterBody2D
             {
                 Bullet bullet = BulletScene.Instantiate<Bullet>();
                 bullet.Position = _bulletSpawnPoint.Position;
+                _bulletSpawnDirection += 1;
+                if (_bulletSpawnDirection > 2)
+                {
+                    _bulletSpawnDirection = 0;
+                }
+
+                bullet._direction = (Vector2.Down + directions[_bulletSpawnDirection]/ _bulletSpread).Normalized();
                 AddChild(bullet);
 
                 _bulletSpawned = true;
@@ -72,10 +83,9 @@ public partial class Player : CharacterBody2D
         _bulletSpawned = false;
     }
 
-    public void Start(Vector2 position)
+    public void OnStart()
     {
         SetPhysicsProcess(true);
-        Position = position;
     }
 
     public void OnHit()
