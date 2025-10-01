@@ -30,7 +30,7 @@ position = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_sh265")
 
 [node name="BulletSpawnPoint" type="Node2D" parent="."]
-position = Vector2(-8, 10)
+position = Vector2(-13, 11)
 
 [node name="BulletSpawnTimer" type="Timer" parent="."]
 wait_time = 0.1

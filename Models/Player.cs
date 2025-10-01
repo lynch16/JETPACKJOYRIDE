@@ -21,7 +21,7 @@ public partial class Player : CharacterBody2D
     private bool isRunning;
     private bool _bulletSpawned = false;
     private int _bulletSpawnDirection = 1;
-    private int _bulletSpread = 4;
+    private int _bulletSpread = 8;
 
     private Node2D _bulletSpawnPoint;
 
