@@ -3,19 +3,9 @@ using System;
 
 public partial class ElectricDumbells : Area2D
 {
-
-    private int[] _dumbellDistanceOptions = [
-        50,
-        100,
-        200
-    ];
-
     private bool _dumbellEnabled = false;
     private float _screenWarningOffset = 10f;
     private Vector2 _velocity = 200f * Vector2.Left;
-
-    private float maxY = 50f;
-    private float minY = 600f;
 
     private CollisionShape2D _crossBeamCollider;
     private Line2D _crossBeam;
@@ -27,24 +17,26 @@ public partial class ElectricDumbells : Area2D
      **/
     public override void _Ready()
     {
-        var distanceOptIndex = GD.Randi() % _dumbellDistanceOptions.Length;
-        var nodeDistance = _dumbellDistanceOptions[distanceOptIndex];
+        var screenSize = GetViewportRect().Size;
+        var floorHeight = GetNode<CollisionShape2D>("/root/Main/World/Floor/CollisionShape2D").Shape.GetRect().Size.Y;
+        var ceilingHeight = GetNode<CollisionShape2D>("/root/Main/World/Ceiling/CollisionShape2D").Shape.GetRect().Size.Y;
+
+        float[] dumbellDistanceOptions = [
+            screenSize.Y / 8,
+            screenSize.Y / 6,
+            screenSize.Y / 4,
+         ];
+
+        var distanceOptIndex = GD.Randi() % dumbellDistanceOptions.Length;
+        var nodeDistance = dumbellDistanceOptions[distanceOptIndex];
 
         var nodeA = GetNode<Area2D>("NodeAlpha");
-        var verticalSpawn = (float)GD.RandRange(200.0, 600.0 - nodeDistance); // Subtract node distnace from the bottom to account for NodeB
-        var midPoint = (verticalSpawn + nodeDistance) / 2;
-        GD.Print("verticalSpawn " + verticalSpawn);
-
-        // Spawn off screen
-        var screenSize = GetViewportRect().Size;
-
+        var verticalSpawn = (float)GD.RandRange(ceilingHeight, screenSize.Y - floorHeight - nodeDistance); // Subtract node distnace from the bottom to account for NodeB
         // nodeA is bound with parent object so set whole object rooted at nodeA
         Position = new Vector2(screenSize.X - _screenWarningOffset, verticalSpawn);
 
-
         var nodeB = GetNode<Area2D>("NodeBeta");
         nodeB.Position = new Vector2(nodeA.Position.X, nodeA.Position.Y + nodeDistance); // Set nodeB off of nodeA
-
 
         // Create a capsule collider across the two nodes
         _crossBeamCollider = new CollisionShape2D();
@@ -71,7 +63,7 @@ public partial class ElectricDumbells : Area2D
         AddChild(_crossBeam);
 
         // Rotate the whole node a random amount
-        Rotation = (float)GD.RandRange(0, Math.Tau);
+        Rotation = (float)GD.RandRange(0, Math.Tau/8);
 
         _dumbellEnabled = true;
 

@@ -28,6 +28,6 @@ public partial class Bullet : Area2D
         isDieing = true;
         SetPhysicsProcess(false);
         GetNode<GpuParticles2D>("ExplosionParticles").Emitting = true;
-        GetNode<Timer>("ExplosionTimer").Start();
+        GetNode<Timer>("BulletLifecycleTimer").Start();
     }
 }

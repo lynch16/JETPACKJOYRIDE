@@ -33,11 +33,12 @@ texture = ExtResource("2_2lpa5")
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_qnqbc")
 
-[node name="ExplosionTimer" type="Timer" parent="."]
+[node name="BulletLifecycleTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 
 [node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 7)
 emitting = false
 amount = 1
 texture = ExtResource("3_0tyoj")
@@ -48,9 +49,10 @@ process_material = SubResource("ParticleProcessMaterial_0lyhu")
 amount = 1
 texture = ExtResource("3_ao17e")
 lifetime = 2.0
+visibility_rect = Rect2(-100, -100, 400, 200)
 process_material = SubResource("ParticleProcessMaterial_ao17e")
 
 [node name="MuzzleFlashSprite" type="Sprite2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
-[connection signal="timeout" from="ExplosionTimer" to="." method="OnExplosionTimerEnd"]
+[connection signal="timeout" from="BulletLifecycleTimer" to="." method="OnExplosionTimerEnd"]

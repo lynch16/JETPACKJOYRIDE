@@ -11,10 +11,10 @@
 [ext_resource type="PackedScene" uid="uid://bo6fd1r6fdngu" path="res://hud.tscn" id="9_kek77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
-size = Vector2(1233, 50)
+size = Vector2(642, 35)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
-size = Vector2(336, 22)
+size = Vector2(336, 11)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ig7tw")
@@ -22,21 +22,22 @@ script = ExtResource("1_ig7tw")
 [node name="World" type="Node" parent="."]
 
 [node name="Player" parent="World" instance=ExtResource("2_0xm2m")]
-position = Vector2(154, 582)
+position = Vector2(82, 302)
 BulletScene = ExtResource("3_1bvp3")
 
 [node name="Floor" type="CharacterBody2D" parent="World"]
+position = Vector2(320, 351)
 collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Floor"]
-position = Vector2(602.5, 623)
 shape = SubResource("RectangleShape2D_ig7tw")
+metadata/_edit_lock_ = true
 
 [node name="Ceiling" type="CharacterBody2D" parent="World"]
+position = Vector2(168, 5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ceiling"]
-position = Vector2(156, 7)
 shape = SubResource("RectangleShape2D_lquwl")
 
 [node name="Utilities" type="Node" parent="."]

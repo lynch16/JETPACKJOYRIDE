@@ -9,10 +9,10 @@ font_color = Color(0.417282, 0.622036, 0.957308, 1)
 script = ExtResource("1_37p78")
 
 [node name="StartButton" type="Button" parent="."]
-offset_left = 548.0
-offset_top = 317.0
-offset_right = 594.0
-offset_bottom = 348.0
+offset_left = 294.0
+offset_top = 167.0
+offset_right = 340.0
+offset_bottom = 198.0
 text = "Start"
 
 [node name="Score" type="Label" parent="."]
