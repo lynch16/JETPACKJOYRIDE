@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://csnonaxpbf1fc"
+path="res://.godot/imported/BulletShell.aseprite-bdba8fc9f8c0cd8f3fd2edd958ac2a29.res"
+
+[deps]
+
+source_file="res://Assets/Sprites/BulletShell.aseprite"
+dest_files=["res://.godot/imported/BulletShell.aseprite-bdba8fc9f8c0cd8f3fd2edd958ac2a29.res"]
+
+[params]
+

@@ -5,7 +5,7 @@ public partial class ElectricDumbells : Area2D
 {
     private bool _dumbellEnabled = false;
     private float _screenWarningOffset = 10f;
-    private Vector2 _velocity = 200f * Vector2.Left;
+    private Vector2 _velocity = Globals.BaseGameSpeed * Vector2.Left;
 
     private CollisionShape2D _crossBeamCollider;
     private Line2D _crossBeam;

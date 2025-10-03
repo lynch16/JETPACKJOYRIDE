@@ -4,7 +4,7 @@ using System;
 public partial class Bullet : Area2D
 {
     public Vector2 _direction = Vector2.Down;
-    private float _launchSpeed = 500f;
+    private float _launchSpeed = Globals.BaseGameSpeed * 2; // Twice speed of movement
     private bool isDieing = false;
 
     public override void _Ready()

@@ -5,20 +5,8 @@ using System;
 public partial class SpawnManager : Node
 {
     [Export]
-    public PackedScene MissleEnemyScene { get; set; }
-    [Export]
-    public PackedScene ElectricDumbellsScene { get; set; }
-
-    private PackedScene _nextEnemey {  get; set; }
-    private PackedScene[] _enemyTypes { get; set; }
-
-    public override void _Ready()
-    {
-        _enemyTypes = [
-            MissleEnemyScene,
-            ElectricDumbellsScene
-        ];
-    }
+    private PackedScene[] EnemyScenes { get; set; }
+    private PackedScene _nextSpawn { get; set; }
 
     public void OnStart()
     {
@@ -32,21 +20,21 @@ public partial class SpawnManager : Node
 
     private void StartSpawnTimer()
     {
-        var _newEnemyType = GD.Randi() % _enemyTypes.Length;
-        _nextEnemey = _enemyTypes[_newEnemyType];
+        var _newEnemyType = GD.Randi() % EnemyScenes.Length;
+        _nextSpawn = EnemyScenes[_newEnemyType];
         GetNode<Timer>("SpawnTimer").Start();
     }
 
     public void OnEnemySpawnTimerEnd()
     {
-        var enemy = _nextEnemey.Instantiate();
+        var enemy = _nextSpawn.Instantiate();
         AddChild(enemy);
         if (enemy.HasMethod("SetPlayerFollower"))
         {
             (enemy as MissileEnemy).SetPlayerFollower(true);
         }
 
-        _nextEnemey = null;
+        _nextSpawn = null;
         StartSpawnTimer();
     }
 }
