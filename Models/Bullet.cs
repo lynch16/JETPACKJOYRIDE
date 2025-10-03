@@ -10,8 +10,6 @@ public partial class Bullet : Area2D
     public override void _Ready()
     {
         // Add some random left/right to the down vector
-        GD.Print("_direction", _direction);
-        GD.Print("_direction.Angle", _direction.Angle());
         Rotation = _direction.Angle() - (float)(Math.PI/2);
     }
 
@@ -30,6 +28,8 @@ public partial class Bullet : Area2D
     {
         isDieing = true;
         SetPhysicsProcess(false);
+        // Hide current sprite and show explosion spirte
+        GetNode<Sprite2D>("BulletSprite").Hide();
         GetNode<GpuParticles2D>("ExplosionParticles").Emitting = true;
         GetNode<Timer>("BulletLifecycleTimer").Start();
     }

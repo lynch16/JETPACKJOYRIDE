@@ -25,12 +25,14 @@ public partial class Player : CharacterBody2D
 
     private Node2D _bulletSpawnPoint;
     private AnimatedSprite2D _sprite;
+    private Sprite2D _muzzleFlash;
 
     public override void _Ready()
     {
         ScreenSize = GetViewportRect().Size;
         _bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        _muzzleFlash = GetNode<Sprite2D>("MuzzleFlash");
         //SetPhysicsProcess(false);
     }
 
@@ -61,6 +63,9 @@ public partial class Player : CharacterBody2D
 
                 _bulletSpawned = true;
                 GetNode<Timer>("BulletSpawnTimer").Start();
+
+                _muzzleFlash.Show();
+                GetNode<Timer>("MuzzleFlash/MuzzleFlashTimer").Start();
             }
         } else
         {
@@ -83,6 +88,11 @@ public partial class Player : CharacterBody2D
     public void OnBulletTimerSpawnEnd()
     {
         _bulletSpawned = false;
+    }
+
+    public void OnMuzzleFlashTimerEnd()
+    {
+        _muzzleFlash.Hide();
     }
 
     public void OnStart()
