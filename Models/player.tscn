@@ -1,7 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://crxefok6puy3u"]
+[gd_scene load_steps=10 format=3 uid="uid://crxefok6puy3u"]
 
 [ext_resource type="Script" uid="uid://x0vs4sxphovn" path="res://Models/Player.cs" id="1_lbduh"]
-[ext_resource type="Texture2D" uid="uid://dkkkogr4sgk4a" path="res://Assets/Sprites/Player.png" id="2_psw0r"]
+[ext_resource type="Texture2D" uid="uid://cuhq1ss0tm76v" path="res://Assets/Sprites/PlayerFlying.png" id="2_psw0r"]
+[ext_resource type="Texture2D" uid="uid://cphp0m66pknmo" path="res://Assets/Sprites/PlayerRunning.png" id="3_jqrfy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vycai"]
+atlas = ExtResource("3_jqrfy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vq5x4"]
+atlas = ExtResource("3_jqrfy")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhulu"]
+atlas = ExtResource("3_jqrfy")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e64u"]
+atlas = ExtResource("3_jqrfy")
+region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sh265"]
 animations = [{
@@ -10,8 +27,25 @@ animations = [{
 "texture": ExtResource("2_psw0r")
 }],
 "loop": true,
-"name": &"default",
+"name": &"flying",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vycai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vq5x4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhulu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1e64u")
+}],
+"loop": true,
+"name": &"running",
+"speed": 7.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sh265"]
@@ -24,13 +58,16 @@ script = ExtResource("1_lbduh")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_sh265")
+animation = &"flying"
+autoplay = "running"
+frame_progress = 0.849998
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_sh265")
 
 [node name="BulletSpawnPoint" type="Node2D" parent="."]
-position = Vector2(-13, 11)
+position = Vector2(-6, 17)
 
 [node name="BulletSpawnTimer" type="Timer" parent="."]
 wait_time = 0.1

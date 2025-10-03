@@ -4,12 +4,15 @@ using System;
 public partial class Bullet : Area2D
 {
     public Vector2 _direction = Vector2.Down;
-    private float _launchSpeed = Globals.BaseGameSpeed * 2; // Twice speed of movement
+    private float _launchSpeed = Globals.BaseGameSpeed * 4; // Twice speed of movement
     private bool isDieing = false;
 
     public override void _Ready()
     {
         // Add some random left/right to the down vector
+        GD.Print("_direction", _direction);
+        GD.Print("_direction.Angle", _direction.Angle());
+        Rotation = _direction.Angle() - (float)(Math.PI/2);
     }
 
     public override void _PhysicsProcess(double delta)

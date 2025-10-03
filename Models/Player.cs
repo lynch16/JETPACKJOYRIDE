@@ -24,11 +24,13 @@ public partial class Player : CharacterBody2D
     private int _bulletSpread = 8;
 
     private Node2D _bulletSpawnPoint;
+    private AnimatedSprite2D _sprite;
 
     public override void _Ready()
     {
         ScreenSize = GetViewportRect().Size;
         _bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
+        _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         //SetPhysicsProcess(false);
     }
 
@@ -37,7 +39,7 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionJustPressed("move_up"))
         {
             isRunning = false;
-            GD.Print("Running animation stop");
+            _sprite.Animation = "flying";
         }
 
         if (Input.IsActionPressed("move_up"))
@@ -72,7 +74,7 @@ public partial class Player : CharacterBody2D
         {
             if (!isRunning)
             {
-                GD.Print("Running animation start");
+                _sprite.Animation = "running";
                 isRunning = true;
             }
         }
