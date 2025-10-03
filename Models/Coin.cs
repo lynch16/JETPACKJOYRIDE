@@ -22,6 +22,7 @@ public partial class Coin : Area2D
         if (body is Player)
         {
             GD.Print("COIN!");
+            GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").OnCoinHit();
             QueueFree();
         }
     }

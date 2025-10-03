@@ -16,6 +16,11 @@ public partial class Hud : CanvasLayer
     {
         GetNode<Label>("Score").Text = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetScore().ToString() + "m";
         GetNode<Label>("HighScore").Text = "Best: " + GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetHighScore().ToString() + "m";
+
+        var coinCountLabel = GetNode<Label>("CoinCount");
+        coinCountLabel.Text = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetCoinCount().ToString();
+        var coinCountIcon = GetNode<Sprite2D>("CoinCountIcon");
+        coinCountIcon.Position = new Vector2(coinCountLabel.GetMinimumSize().X, coinCountIcon.Position.Y);
     }
 
     public void OnGameOver()

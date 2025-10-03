@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bo6fd1r6fdngu"]
+[gd_scene load_steps=5 format=3 uid="uid://bo6fd1r6fdngu"]
 
 [ext_resource type="Script" uid="uid://42jdx1je2xvc" path="res://Hud.cs" id="1_37p78"]
+[ext_resource type="Texture2D" uid="uid://dfumfopir2a43" path="res://Assets/Sprites/Coin.png" id="2_64ctp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_37p78"]
 font_color = Color(0.417282, 0.622036, 0.957308, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8sq4i"]
+font_color = Color(0.937255, 0.74902, 0.0156863, 1)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_37p78")
@@ -26,5 +30,19 @@ offset_right = 40.0
 offset_bottom = 47.0
 text = "0m"
 label_settings = SubResource("LabelSettings_37p78")
+
+[node name="CoinCount" type="Label" parent="."]
+offset_top = 48.0
+offset_right = 40.0
+offset_bottom = 71.0
+text = "0"
+label_settings = SubResource("LabelSettings_8sq4i")
+
+[node name="CoinCountIcon" type="Sprite2D" parent="."]
+position = Vector2(12, 52)
+texture = ExtResource("2_64ctp")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
 
 [connection signal="button_up" from="StartButton" to="." method="OnStartButtonClicked"]

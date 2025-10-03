@@ -52,7 +52,7 @@ script = ExtResource("1_e7wkf")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_sip4v")
-frame_progress = 0.331983
+frame_progress = 0.2187
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
 "layer_section": false,

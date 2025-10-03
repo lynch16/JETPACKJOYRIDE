@@ -63,9 +63,9 @@ public partial class CoinManager : Node2D
         }
 
         var debugCoin = CoinScene.Instantiate<Area2D>();
-        debugCoin.Position = Position;
-        debugCoin.Modulate = new Color(0, 0, 1);
-        AddChild(debugCoin);
+        //debugCoin.Position = Position;
+        //debugCoin.Modulate = new Color(0, 0, 1);
+        //AddChild(debugCoin);
     }
 
     private void SetStartPosition(float coinShapeHeight)

@@ -4,6 +4,7 @@ using System;
 public partial class ScoreManager : Node
 {
     private int _score;
+    private int _coinsCollected;
     private double _currentRunTimeSec;
     private int _highScore;
 
@@ -38,6 +39,16 @@ public partial class ScoreManager : Node
     public int GetScore()
     {
         return _score;
+    }
+
+    public void OnCoinHit()
+    {
+        _coinsCollected++;
+    }
+
+    public int GetCoinCount()
+    {
+        return _coinsCollected;
     }
 
     public int GetHighScore()
