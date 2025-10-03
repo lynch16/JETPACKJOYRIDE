@@ -14,8 +14,19 @@ public partial class Hud : CanvasLayer
 
     public override void _Process(double delta)
     {
-        GetNode<Label>("Score").Text = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetScore().ToString() + "m";
-        GetNode<Label>("HighScore").Text = "Best: " + GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetHighScore().ToString() + "m";
+        var currentScore = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetScore();
+        var highScore = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetHighScore();
+
+        GetNode<Label>("Score").Text = currentScore.ToString() + "m";
+
+        if (highScore > 0 && currentScore > highScore)
+        {
+            GetNode<Label>("HighScore").Text = "NEW HIGH SCORE!";
+        }
+        else
+        {
+            GetNode<Label>("HighScore").Text = "Best: " + highScore.ToString() + "m";
+        }
 
         var coinCountLabel = GetNode<Label>("CoinCount");
         coinCountLabel.Text = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetCoinCount().ToString();
