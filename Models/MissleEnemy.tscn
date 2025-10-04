@@ -1,20 +1,60 @@
-[gd_scene load_steps=5 format=3 uid="uid://5qfwupwkjgdn"]
+[gd_scene load_steps=9 format=3 uid="uid://5qfwupwkjgdn"]
 
 [ext_resource type="Script" uid="uid://d0xfk2dmd32k" path="res://Models/MissileEnemy.cs" id="1_vge7o"]
 [ext_resource type="Texture2D" uid="uid://c00gss416jy5j" path="res://Assets/Sprites/Missile.png" id="2_ay8wp"]
 [ext_resource type="Texture2D" uid="uid://cd56i62fwfymb" path="res://Assets/Sprites/Warning.png" id="3_4ybwe"]
+[ext_resource type="Texture2D" uid="uid://xpbe8mo24y20" path="res://Assets/Sprites/WarningComplete.png" id="4_4ybwe"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a7tgf"]
 radius = 4.00009
 height = 31.9998
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ybwe"]
+atlas = ExtResource("3_4ybwe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ay8wp"]
+atlas = ExtResource("3_4ybwe")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pba0v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ybwe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4ybwe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4ybwe")
+}],
+"loop": true,
+"name": &"UrgentWarning",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ay8wp")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="MissileEnemy" type="Area2D"]
 script = ExtResource("1_vge7o")
 
 [node name="Missile" type="Sprite2D" parent="."]
 texture = ExtResource("2_ay8wp")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -1)
 rotation = 1.57071
 shape = SubResource("CapsuleShape2D_a7tgf")
@@ -26,8 +66,11 @@ one_shot = true
 [node name="ExplosionTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Warning" type="Sprite2D" parent="."]
-texture = ExtResource("3_4ybwe")
+[node name="Warning" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pba0v")
+animation = &"UrgentWarning"
+autoplay = "default"
+frame_progress = 0.0080064
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="timeout" from="LaunchTimer" to="." method="OnLaunchTimerEnd"]

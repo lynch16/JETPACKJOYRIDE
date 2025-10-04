@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://chqe6f8kw4dpk"
+path="res://.godot/imported/ElectricCharge.aseprite-b0a3c0cd1dab129e084297adc6bd4967.res"
+
+[deps]
+
+source_file="res://Assets/Sprites/ElectricCharge.aseprite"
+dest_files=["res://.godot/imported/ElectricCharge.aseprite-b0a3c0cd1dab129e084297adc6bd4967.res"]
+
+[params]
+

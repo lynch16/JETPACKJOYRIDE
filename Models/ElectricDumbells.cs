@@ -9,6 +9,7 @@ public partial class ElectricDumbells : Area2D
 
     private CollisionShape2D _crossBeamCollider;
     private Line2D _crossBeam;
+    private float _crossBeamWidth = 20f;
 
     /**
      * 1. Randonly pick the size of the enemy
@@ -52,15 +53,21 @@ public partial class ElectricDumbells : Area2D
 
         // Create a line between the two nodes
         _crossBeam = new Line2D();
+        _crossBeam.Width = _crossBeamWidth;
         // Create the Line2D with points at the ends of the nodes
         _crossBeam.AddPoint(nodeA.Position);
         _crossBeam.AddPoint(nodeB.Position);
 
-        var texture = GD.Load<Texture2D>("res://Assets/Sprites/SizedBall.png");
+        var texture = GD.Load<Texture2D>("res://Assets/Sprites/ElectricCharge.png");
         _crossBeam.Texture = texture;
-        _crossBeam.TextureMode = Line2D.LineTextureMode.Tile;
-        _crossBeam.TextureRepeat = Line2D.TextureRepeatEnum.Enabled;
+        _crossBeam.TextureMode = Line2D.LineTextureMode.Stretch;
         AddChild(_crossBeam);
+
+        var lineParticles = GetNode<GpuParticles2D>("LineParticles");
+        lineParticles.Position = new Vector2(0, (nodeB.Position.Y - nodeA.Position.Y)/2);
+        // Have the line not quite as wide as the rest in order to excentuate the dumbell shape
+        (lineParticles.ProcessMaterial as ParticleProcessMaterial).EmissionBoxExtents = new Vector3(_crossBeamWidth * 0.75f, nodeDistance/2, 1);
+        lineParticles.Show();
 
         // Rotate the whole node a random amount
         Rotation = (float)GD.RandRange(0, Math.Tau/8);

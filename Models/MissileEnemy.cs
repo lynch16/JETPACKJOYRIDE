@@ -6,11 +6,11 @@ public partial class MissileEnemy : Area2D
 {
     private Player _player;
     private Sprite2D _missileSprite;
-    private Sprite2D _warningSprite;
+    private AnimatedSprite2D _warningSprite;
 
     private Vector2 _direction = Vector2.Left;
     private Vector2 _velcoity = Vector2.Zero;
-    private float _launchSpeed = 2000f;
+    private float _launchSpeed = 1000f;
     private float _followPlayerSpeed = 10f;
     private float _screenWarningOffset = 10f;
     private Vector2 _screenSize;
@@ -25,13 +25,14 @@ public partial class MissileEnemy : Area2D
         _player = GetNode<Player>("/root/Main/World/Player");
         _missileSprite = GetNode<Sprite2D>("Missile");
         _missileSprite.Hide();
-        _warningSprite = GetNode<Sprite2D>("Warning");
+        _warningSprite = GetNode<AnimatedSprite2D>("Warning");
         GetNode<Timer>("LaunchTimer").Start();
 
         Position = new Vector2(_screenSize.X - _screenWarningOffset, 0);
 
+        _warningSprite.Animation = "default";
+        _warningSprite.Play();
         _warningSprite.Show();
-        // TODO:  Start warning sprite animation (flashing)
 
         GetNode<Main>("/root/Main").GameOver += OnGameOver;
     }
@@ -44,6 +45,17 @@ public partial class MissileEnemy : Area2D
         {
             var playerPosition = _player.GetPosition();
             Position = new Vector2(_screenSize.X - _screenWarningOffset, playerPosition.Y);
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        var timer = GetNode<Timer>("LaunchTimer");
+        var percentTimeLeft = timer.TimeLeft / timer.WaitTime;
+        if (percentTimeLeft <= .2f && _warningSprite.Animation == "default")
+        {
+            _warningSprite.Animation = "UrgentWarning";
+            _warningSprite.Play();
         }
     }
 

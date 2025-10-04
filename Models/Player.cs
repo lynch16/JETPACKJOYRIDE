@@ -12,7 +12,7 @@ public partial class Player : CharacterBody2D
     [Export]
     private float _flightSpeed = 8000f;
     [Export]
-    private float _fallSpeed = 10000f;
+    private float _fallSpeed = 12000f;
 
     public Vector2 ScreenSize;
 
