@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class ParallaxBackground : Godot.ParallaxBackground
+public partial class ParallaxBackground : Godot.Parallax2D
 {
     private bool _isActive = false;
     private float _runRate = Globals.BaseGameSpeed;
@@ -10,7 +10,7 @@ public partial class ParallaxBackground : Godot.ParallaxBackground
     {
         if (_isActive)
         {
-            ScrollBaseOffset -= new Vector2((float)(_runRate * delta), 0);
+            ScrollOffset -= new Vector2((float)(_runRate * delta), 0);
         }
     }
 
