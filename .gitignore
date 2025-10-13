@@ -17,3 +17,4 @@ mono_crash.*.json
 .vs/
 
 Exports/
+!Exports\macOs\JetpackJoyride.app\Contents\Info.plist
