@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Godot
-        uses: lynch16/godot-actions/install-godot@v1.2
+        uses: CapsCollective/godot-actions/install-godot@v1.2
         with:
           godot-version: ${{ env.GODOT_VERSION }}
           install-templates: true
