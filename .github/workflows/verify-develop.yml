@@ -43,7 +43,7 @@ jobs:
       
   run-project-validation:
     needs: check-version-bump
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3
@@ -62,7 +62,7 @@ jobs:
 
   build:
     needs: run-project-validation
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3
