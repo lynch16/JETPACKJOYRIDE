@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="JetPackJoyRide"
-config/version="0.0.0"
+config/version="0.0.1"
 run/main_scene="uid://bvt2jc0f1shf1"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="uid://dj4hnd801fphc"
