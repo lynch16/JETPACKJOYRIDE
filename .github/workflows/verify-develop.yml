@@ -18,13 +18,6 @@ jobs:
         with:
           ref: ${{ github.base_ref }}
 
-      - name: Extract old version string
-        uses: CapsCollective/version-actions/extract-version@v1.0
-        with:
-          version-file: ${{ env.VERSION_FILE }}
-          version-regex: ${{ env.VERSION_REGEX }}
-        id: extract-version-old
-
       - name: Checkout current branch
         uses: actions/checkout@v3
 
