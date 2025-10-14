@@ -26,7 +26,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.channel }}
-          path: build/${{ matrix.channel }}
+          path: ${{ matrix.channel }}
           github-token: ${{ secrets.GH_PAT }}
           run-id: ${{ github.event.workflow_run.id }} 
       - uses: KikimoraGames/itch-publish@v0.0.3
