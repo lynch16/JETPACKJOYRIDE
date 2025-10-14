@@ -6,6 +6,8 @@ on:
       - Export Godot
     types: 
       - completed
+    branches:
+      - release
 
 env:
   ITCH_USERNAME: brige
