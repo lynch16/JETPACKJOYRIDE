@@ -1,12 +1,11 @@
-name: "Deploy"
+name: Deploy
 
 on: 
   workflow_run:
-    workflows: ["Export Godot"]
+    workflows:
+      - Export Godot
     types: 
       - completed
-    branches:
-      - release
 
 env:
   ITCH_USERNAME: brige
