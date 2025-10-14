@@ -27,8 +27,8 @@ jobs:
         with:
           name: ${{ matrix.channel }}
           path: build/${{ matrix.channel }}
-          github_token: ${{ secrets.GH_PAT }}
-          run_id: ${{ github.event.workflow_run.id }} 
+          github-token: ${{ secrets.GH_PAT }}
+          run-id: ${{ github.event.workflow_run.id }} 
       - uses: KikimoraGames/itch-publish@v0.0.3
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
