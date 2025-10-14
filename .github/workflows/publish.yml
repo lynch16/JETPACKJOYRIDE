@@ -9,6 +9,7 @@ env:
   ITCH_GAME_ID: jumpingjetpacks
 jobs:
   deploy:
+    needs: export-windows
     strategy:
       fail-fast: true
       matrix:
