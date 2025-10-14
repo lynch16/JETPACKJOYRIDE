@@ -1,15 +1,18 @@
 name: "Deploy"
 
 on: 
-  push:
-    branches: [ 'release' ]
+  workflow_run:
+    workflows: ["Export Godot"]
+    types: 
+      - completed
+    branches:
+      - release
 
 env:
   ITCH_USERNAME: brige
   ITCH_GAME_ID: jumpingjetpacks
 jobs:
   deploy:
-    needs: export-windows
     strategy:
       fail-fast: true
       matrix:
