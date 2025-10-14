@@ -167,12 +167,3 @@ script = ExtResource("7_272bh")
 script = ExtResource("8_5vw27")
 
 [node name="HUD" parent="." instance=ExtResource("9_kek77")]
-
-[connection signal="GameOver" from="." to="World/ParallaxBackground/ParallaxLayer" method="OnGameOver"]
-[connection signal="GameOver" from="." to="Utilities/SpawnManager" method="OnGameOver"]
-[connection signal="GameOver" from="." to="Utilities/ScoreManager" method="OnGameOver"]
-[connection signal="Hit" from="World/Player" to="." method="OnPlayerHit"]
-[connection signal="Start" from="HUD" to="World/ParallaxBackground/ParallaxLayer" method="OnStart"]
-[connection signal="Start" from="HUD" to="World/Player" method="OnStart"]
-[connection signal="Start" from="HUD" to="Utilities/SpawnManager" method="OnStart"]
-[connection signal="Start" from="HUD" to="Utilities/ScoreManager" method="OnStart"]

@@ -25,10 +25,6 @@ window/size/viewport_height=360
 
 project/assembly_name="JetPackJoyRide"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
-
 [input]
 
 move_up={

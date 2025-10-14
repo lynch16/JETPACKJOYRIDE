@@ -34,6 +34,8 @@ public partial class Player : CharacterBody2D
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _muzzleFlash = GetNode<Sprite2D>("MuzzleFlash");
         //SetPhysicsProcess(false);
+        GetNode<Hud>("/root/Main/HUD").Connect(Hud.SignalName.Start, Callable.From(
+          OnStart));
     }
 
     public override void _PhysicsProcess(double delta)

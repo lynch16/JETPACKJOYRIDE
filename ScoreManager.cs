@@ -12,13 +12,17 @@ public partial class ScoreManager : Node
 
     private SaveManager _saveManager;
 
-    private float _speedRamp = 25f; // In m to calculate final speed
     private double _speed = 10f; // In m/s to calculate score represented in meters
 
     public override void _Ready()
     {
         _saveManager = new SaveManager();
         _highScore = _saveManager.LoadHighScore();
+
+        GetNode<Hud>("/root/Main/HUD").Connect(Hud.SignalName.Start, Callable.From(
+            OnStart));
+        GetNode<Main>("/root/Main").Connect(Main.SignalName.GameOver, Callable.From(
+            OnGameOver));
     }
 
     // Using physics process instead of physics as score is
@@ -29,9 +33,7 @@ public partial class ScoreManager : Node
         if (_gameStarted)
         {
             _currentRunTimeSec += delta;
-            var totalGameTime = Mathf.Floor(_currentRunTimeSec);
-            var totalDistance = totalGameTime * _speed;
-            _speed = totalGameTime / _speedRamp + 10;
+            var totalDistance = _currentRunTimeSec * _speed;
             _score = (int)Mathf.Round(totalDistance);
         }
     }

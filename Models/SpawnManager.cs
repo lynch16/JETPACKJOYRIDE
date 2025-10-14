@@ -11,6 +11,13 @@ public partial class SpawnManager : Node
     private PackedScene _nextSpawn { get; set; }
 
     private int _coinRatio = 100/20; // Spawn coins 20% of the time
+    public override void _Ready()
+    {
+        GetNode<Hud>("/root/Main/HUD").Connect(Hud.SignalName.Start, Callable.From(
+            OnStart));
+        GetNode<Main>("/root/Main").Connect(Main.SignalName.GameOver, Callable.From(
+            OnGameOver));
+    }
 
     public void OnStart()
     {
@@ -26,9 +33,13 @@ public partial class SpawnManager : Node
     {
         var _newEnemyType = GD.Randi() % EnemyScenes.Length;
 
+        GD.Print("_newEnemyType ", _newEnemyType);
+
         // Generate random number between 0-100. Spawn coin if multiple of 10;
         var random = (GD.Randi() % 100);
         var shouldSpawnCoin = random % _coinRatio == 0;
+
+        GD.Print("shouldSpawnCoin ", shouldSpawnCoin);
 
         if (shouldSpawnCoin)
         {
@@ -39,12 +50,15 @@ public partial class SpawnManager : Node
             _nextSpawn = EnemyScenes[_newEnemyType];
         }
 
+        GD.Print("_nextSpawn ", _nextSpawn);
+
         GetNode<Timer>("SpawnTimer").Start();
     }
 
     public void OnEnemySpawnTimerEnd()
     {
         var enemy = _nextSpawn.Instantiate();
+        GD.Print("enemy ", enemy);
         AddChild(enemy);
         if (enemy.HasMethod("SetPlayerFollower"))
         {
