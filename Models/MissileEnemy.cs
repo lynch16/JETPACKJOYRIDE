@@ -110,14 +110,18 @@ public partial class MissileEnemy : Area2D
     public void OnExplosionTimerEnd()
     {
         // TODO: Stop explosion animation
+        isDieing = true;
         QueueFree();
     }
 
     public void Hit()
     {
         // Explode and dequeue
+        if (!isDieing)
+        {
+            GetNode<Timer>("ExplosionTimer").Start();
+        }
         isDieing = true;
-        GetNode<Timer>("ExplosionTimer").Start();
         // TODO:  Start explosion animation
     }
 
