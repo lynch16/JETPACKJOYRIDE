@@ -27,13 +27,20 @@ jobs:
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Build Generic
         run: |
-          godot --headless --editor --build-solutions --quit --import --path $PWD
+          godot --headless --build-solutions --quit --import --path $PWD
       - uses: MikeSchulze/gdunit4-action@v1
         with:
           godot-version: ${GODOT_VERSION}
           godot-net: true
           dotnet-version: net9.0
           paths: 'res://UnitTests'
+          arguments: '--verbose'
+      - name: Windows Build
+        run: |
+          mkdir -v -p build/windows
+          EXPORT_DIR="$(readlink -f build)"
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-debug "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
