@@ -31,6 +31,12 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-debug "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
+      - uses: MikeSchulze/gdunit4-action@v1
+        with:
+          godot-version: ${GODOT_VERSION}
+          godot-net: true
+          dotnet-version: net9.0
+          paths: 'res://UnitTests'
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
