@@ -23,6 +23,7 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/
+          sudo apt-get install xvfb
           mv /root/.config/godot ~/.config/godot
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Build Generic
@@ -35,6 +36,7 @@ jobs:
           dotnet-version: net9.0
           paths: 'res://UnitTests'
           arguments: '--verbose'
+          publish-report: false
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
