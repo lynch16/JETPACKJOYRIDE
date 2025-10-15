@@ -23,7 +23,8 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/
-          apt-get install xvfb
+          apt-get update
+          apt-get install -y xvfb
           mv /root/.config/godot ~/.config/godot
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
       - name: Build Generic
