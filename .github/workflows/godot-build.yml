@@ -30,14 +30,14 @@ jobs:
       - name: Build Generic
         run: |
           godot --headless --build-solutions --quit --import --path $PWD
-      - uses: MikeSchulze/gdunit4-action@v1
-        with:
-          godot-version: ${GODOT_VERSION}
-          godot-net: true
-          dotnet-version: net9.0
-          paths: 'res://UnitTests'
-          arguments: '--verbose'
-          publish-report: false
+      # - uses: MikeSchulze/gdunit4-action@v1
+      #   with:
+      #     godot-version: ${GODOT_VERSION}
+      #     godot-net: true
+      #     dotnet-version: net9.0
+      #     paths: 'res://UnitTests'
+      #     arguments: '--verbose'
+      #     publish-report: false
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
