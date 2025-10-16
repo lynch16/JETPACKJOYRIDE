@@ -3,7 +3,7 @@ name: Deploy
 on: 
   workflow_run:
     workflows:
-      - Export Godot
+      - Build
     types: 
       - completed
     branches:
@@ -21,7 +21,7 @@ jobs:
         channel:
           - windows
     runs-on: ubuntu-latest
-    name: Deploy Itch ${{ matrix.template }}
+    name: Deploy to Itch ${{ matrix.template }}
     steps:
       - uses: actions/download-artifact@v4
         with:

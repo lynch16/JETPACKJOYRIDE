@@ -3,18 +3,21 @@ using System;
 
 public partial class SaveManager : Node
 {
-    private string saveGameLocation = "user://savegame.data";
-
-    public void SaveHighScore(int highScore)
+    private string getSaveGameString(string fileName)
     {
-        var saveFile = FileAccess.Open(saveGameLocation, FileAccess.ModeFlags.Write);
+        return "user://" + fileName + ".data";
+    }
+
+    public void SaveHighScore(int highScore, string fileName = "savegame")
+    {
+        var saveFile = FileAccess.Open(getSaveGameString(fileName), FileAccess.ModeFlags.Write);
         saveFile.StoreVar(highScore);
         saveFile.Close();
     }
 
-    public int LoadHighScore()
+    public int LoadHighScore(string fileName = "savegame")
     {
-        var saveFile = FileAccess.Open(saveGameLocation, FileAccess.ModeFlags.Read);
+        var saveFile = FileAccess.Open(getSaveGameString(fileName), FileAccess.ModeFlags.Read);
         if (saveFile != null)
         {
             var highScore = saveFile.GetVar();
@@ -23,6 +26,11 @@ public partial class SaveManager : Node
         }
 
         return 0;
+    }
+
+    public void ClearHighScore(string filename)
+    {
+        DirAccess.RemoveAbsolute(getSaveGameString(filename));
 
     }
 }
