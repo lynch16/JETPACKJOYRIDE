@@ -1,0 +1,1 @@
+using GdUnit4;using Godot;using System;[TestSuite]public class ScoreManagerTest{    [TestCase]    public void TestGetScore()    {        ScoreManager manager = new ScoreManager();        Assertions.Equals(manager.GetScore(), 0);    }}
