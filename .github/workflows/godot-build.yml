@@ -56,6 +56,7 @@ jobs:
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
+          mkdir -v -p build/windows_debug
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
