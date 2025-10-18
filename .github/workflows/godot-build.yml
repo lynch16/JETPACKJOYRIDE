@@ -35,7 +35,6 @@ jobs:
           godot-net: true
           dotnet-version: net9.0
           paths: 'res://UnitTests'
-          arguments: '--verbose --diag'
           upload-report: true
           publish-report: false
   export-windows:
