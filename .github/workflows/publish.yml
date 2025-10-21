@@ -12,6 +12,7 @@ on:
 env:
   ITCH_USERNAME: brige
   ITCH_GAME_ID: jumpingjetpacks
+
 jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
