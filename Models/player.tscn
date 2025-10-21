@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://crxefok6puy3u"]
+[gd_scene load_steps=16 format=3 uid="uid://crxefok6puy3u"]
 
 [ext_resource type="Script" uid="uid://x0vs4sxphovn" path="res://Models/Player.cs" id="1_lbduh"]
 [ext_resource type="Texture2D" uid="uid://cuhq1ss0tm76v" path="res://Assets/Sprites/PlayerFlying.png" id="2_psw0r"]
@@ -54,6 +54,27 @@ animations = [{
 radius = 5.0
 height = 32.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vq5x4"]
+
+[sub_resource type="Curve" id="Curve_fhulu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1e64u"]
+curve = SubResource("Curve_fhulu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1ea65"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity_max = 500.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 5.0
+color = Color(1, 0.57254905, 0, 1)
+alpha_curve = SubResource("CurveTexture_1e64u")
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_lbduh")
 BulletScene = ExtResource("2_vq5x4")
@@ -87,6 +108,15 @@ texture = ExtResource("4_vycai")
 [node name="MuzzleFlashTimer" type="Timer" parent="MuzzleFlash"]
 wait_time = 0.05
 one_shot = true
+
+[node name="DeathAnimation" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_vq5x4")
+emitting = false
+amount = 200
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_1ea65")
 
 [connection signal="timeout" from="BulletSpawnTimer" to="." method="OnBulletTimerSpawnEnd"]
 [connection signal="timeout" from="MuzzleFlash/MuzzleFlashTimer" to="." method="OnMuzzleFlashTimerEnd"]

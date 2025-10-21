@@ -26,6 +26,7 @@ public partial class Player : CharacterBody2D
     private Node2D _bulletSpawnPoint;
     private AnimatedSprite2D _sprite;
     private Sprite2D _muzzleFlash;
+    private GpuParticles2D _deathParticles;
 
     public override void _Ready()
     {
@@ -33,7 +34,8 @@ public partial class Player : CharacterBody2D
         _bulletSpawnPoint = GetNode<Node2D>("BulletSpawnPoint");
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _muzzleFlash = GetNode<Sprite2D>("MuzzleFlash");
-        //SetPhysicsProcess(false);
+        _deathParticles = GetNode<GpuParticles2D>("DeathAnimation");
+
         GetNode<Hud>("/root/Main/HUD").Connect(Hud.SignalName.Start, Callable.From(
           OnStart));
     }
@@ -76,7 +78,6 @@ public partial class Player : CharacterBody2D
 
         MoveAndSlide();
 
-        // TODO: If on ground, running animation
         if (IsOnFloor())
         {
             if (!isRunning)
@@ -104,10 +105,11 @@ public partial class Player : CharacterBody2D
 
     public void OnHit()
     {
-        // TODO: Trigger death animation
         EmitSignal(SignalName.Hit);
         GD.Print("Player Hit");
+        _deathParticles.Emitting = true;
+        _sprite.Hide();
         // Must be deferred as we can't change physics properties on a physics callback.
-        //SetPhysicsProcess(false);
+        SetPhysicsProcess(false);
     }
 }

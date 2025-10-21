@@ -7,6 +7,8 @@ public partial class MissileEnemy : Area2D
     private Player _player;
     private Sprite2D _missileSprite;
     private AnimatedSprite2D _warningSprite;
+    private GpuParticles2D _smokeParticles;
+    private GpuParticles2D _explosionParticles;
 
     private Vector2 _direction = Vector2.Left;
     private Vector2 _velcoity = Vector2.Zero;
@@ -26,6 +28,8 @@ public partial class MissileEnemy : Area2D
         _missileSprite = GetNode<Sprite2D>("Missile");
         _missileSprite.Hide();
         _warningSprite = GetNode<AnimatedSprite2D>("Warning");
+        _smokeParticles = GetNode<GpuParticles2D>("SmokeParticles");
+        _explosionParticles = GetNode<GpuParticles2D>("Explosion");
         GetNode<Timer>("LaunchTimer").Start();
 
         Position = new Vector2(_screenSize.X - _screenWarningOffset, 0);
@@ -104,12 +108,11 @@ public partial class MissileEnemy : Area2D
 
         _velcoity = _launchSpeed * _direction;
         isLaunched = true;
-        // TODO:  Start missile animation
+        _smokeParticles.Emitting = true;
     }
 
     public void OnExplosionTimerEnd()
     {
-        // TODO: Stop explosion animation
         isDieing = true;
         QueueFree();
     }
@@ -121,8 +124,12 @@ public partial class MissileEnemy : Area2D
         {
             GetNode<Timer>("ExplosionTimer").Start();
         }
+
+        _smokeParticles.Emitting = false;
+        _explosionParticles.Emitting = true;
+        _missileSprite.Hide();
+
         isDieing = true;
-        // TODO:  Start explosion animation
     }
 
     // Detonate all missiles on GameOver
