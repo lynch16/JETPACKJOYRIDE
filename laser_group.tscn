@@ -1,0 +1,120 @@
+[gd_scene load_steps=6 format=4 uid="uid://cawecc3p1ujry"]
+
+[ext_resource type="Script" uid="uid://bju2arpvyndtf" path="res://LaserGroup.cs" id="1_rmru1"]
+
+[sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_80v8i"]
+_data = PackedByteArray("AAADAAUAAAABAAAAYAAAAEAAAAA0AQAAUklGRiwBAABXRUJQVlA4TCABAAAvX8APEEegJgAShv6xyIDrs4Afp0EUQpLknEL2t4ifKF7iGb5KTSMp0Am447GEKxSglZ6SYv4DAPe2/vAptLaY5p7vZye4jSTJba4Kyv4UUEwA2lUXAlQCBEOACxNxv7pXVF5E/9m4bSOJnmN3KxfZT8CfHORx2QOVOOuBqjNz06N33aNHnS5y0QPxkctvXCV6zItBj3lRenjQE4qoJxRRTygiCiMxEvOuIlWk6gvwMVeauOnhfs59/EcA7nuACsC+h74JgHWPvzd2c3bz2D7pH24l1hvPjNj3mZnpSZetHnW6SGydV2r2bV7kN64S3/ZFfuOOAPSEIroIz9QWIy3BqUjHFxDCXGmi0ERwP+ch/EcAJLAHKrWHCiwiPWlj8QQ=")
+size_override = Vector2(96, 64)
+
+[sub_resource type="Animation" id="Animation_rmru1"]
+length = 5.0
+step = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../LaserModuleA/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kud1c"]
+_data = {
+&"default": SubResource("Animation_rmru1")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_80v8i"]
+
+[node name="LaserGroup" type="Area2D"]
+script = ExtResource("1_rmru1")
+
+[node name="LaserModuleA" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="LaserModuleA"]
+texture_filter = 1
+texture = SubResource("PortableCompressedTexture2D_80v8i")
+hframes = 3
+vframes = 2
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": false,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"convert_fps_field": 60.0,
+"convert_ms_field": 16.0,
+"convert_to_fps": false,
+"embed_tex": true,
+"i_mode": 0,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "LeftModule/AnimationPlayer",
+"scale": "1.0",
+"slice": "",
+"source": "res://Assets/Sprites/Laser.aseprite",
+"source_uid": 7082958311089737470
+}
+metadata/_aseprite_wizard_source_file_hash_ = "de5cbf84622667ff653ba2a4cb1539be"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LaserModuleA"]
+libraries = {
+&"": SubResource("AnimationLibrary_kud1c")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaserModuleA"]
+position = Vector2(-9.313226e-09, 5.0000005)
+rotation = 1.5439273
+shape = SubResource("CapsuleShape2D_80v8i")
+
+[node name="LaserModuleB" type="Area2D" parent="."]
+position = Vector2(92, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="LaserModuleB"]
+texture_filter = 1
+texture = SubResource("PortableCompressedTexture2D_80v8i")
+flip_h = true
+hframes = 3
+vframes = 2
+frame = 4
+metadata/_aseprite_wizard_interface_config_ = {
+"layer_section": false,
+"pending_changes": {}
+}
+metadata/_aseprite_wizard_config_ = {
+"convert_fps_field": 60.0,
+"convert_ms_field": 16.0,
+"convert_to_fps": false,
+"embed_tex": true,
+"i_mode": 0,
+"keep_anim_length": false,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"player": "LeftModule/AnimationPlayer",
+"scale": "1.0",
+"slice": "",
+"source": "res://Assets/Sprites/Laser.aseprite",
+"source_uid": 7082958311089737470
+}
+metadata/_aseprite_wizard_source_file_hash_ = "de5cbf84622667ff653ba2a4cb1539be"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LaserModuleB"]
+libraries = {
+&"": SubResource("AnimationLibrary_kud1c")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaserModuleB"]
+position = Vector2(-9.313226e-09, 5.0000005)
+rotation = 1.5439273
+shape = SubResource("CapsuleShape2D_80v8i")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
