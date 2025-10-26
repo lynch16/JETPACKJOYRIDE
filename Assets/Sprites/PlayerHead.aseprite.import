@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://ccul1j5hdppd8"
+path="res://.godot/imported/PlayerHead.aseprite-362dae9618a638d3031e3200770fd936.res"
+
+[deps]
+
+source_file="res://Assets/Sprites/PlayerHead.aseprite"
+dest_files=["res://.godot/imported/PlayerHead.aseprite-362dae9618a638d3031e3200770fd936.res"]
+
+[params]
+

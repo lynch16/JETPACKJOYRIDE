@@ -33,7 +33,8 @@ public partial class Main : Node2D
 
     public void OnPlayerHit()
     {
+        scoreManager.RemoveLife();
+
         EmitSignal(SignalName.GameOver);
-        GD.Print("Game Over");
     }
 }

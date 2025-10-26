@@ -78,8 +78,6 @@ alpha_curve = SubResource("CurveTexture_1e64u")
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_lbduh")
 BulletScene = ExtResource("2_vq5x4")
-_flightSpeed = null
-_fallSpeed = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1, 0)

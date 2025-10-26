@@ -7,6 +7,8 @@ public partial class ScoreManager : Node
     private int _coinsCollected;
     private double _currentRunTimeSec;
     private int _highScore;
+    private int _lives = 2;
+    private int _coinLifeThreshold = 100;
 
     private bool _gameStarted = false;
 
@@ -43,9 +45,26 @@ public partial class ScoreManager : Node
         return _score;
     }
 
+    public int GetLivesLeft()
+    {
+        return _lives;
+    }
+
+    public void RemoveLife()
+    {
+        _lives--;
+    }
+
     public void OnCoinHit()
     {
         _coinsCollected++;
+        
+        // Every 100 coins, give extra life and reset coin count
+        if (_coinsCollected == _coinLifeThreshold)
+        {
+            _lives++;
+            _coinsCollected = 0;
+        }
     }
 
     public int GetCoinCount()

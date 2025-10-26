@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bo6fd1r6fdngu"]
+[gd_scene load_steps=6 format=3 uid="uid://bo6fd1r6fdngu"]
 
 [ext_resource type="Script" uid="uid://42jdx1je2xvc" path="res://Hud.cs" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://dfumfopir2a43" path="res://Assets/Sprites/Coin.png" id="2_64ctp"]
+[ext_resource type="Texture2D" uid="uid://d1xvqddyj8phw" path="res://Assets/Sprites/PlayerHead.png" id="3_8sq4i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_37p78"]
 font_color = Color(0.417282, 0.622036, 0.957308, 1)
@@ -38,11 +39,30 @@ offset_bottom = 71.0
 text = "0"
 label_settings = SubResource("LabelSettings_8sq4i")
 
-[node name="CoinCountIcon" type="Sprite2D" parent="."]
-position = Vector2(12, 52)
+[node name="CoinCountIcon" type="Sprite2D" parent="CoinCount"]
+position = Vector2(12, 4)
 texture = ExtResource("2_64ctp")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
+
+[node name="LifeCountGrid" type="GridContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -19.0
+offset_top = 4.0
+offset_right = -3.0
+offset_bottom = 21.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LifeCountGrid"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="LifeSprite" type="TextureRect" parent="LifeCountGrid/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_8sq4i")
 
 [connection signal="button_up" from="StartButton" to="." method="OnStartButtonClicked"]

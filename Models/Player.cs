@@ -101,6 +101,7 @@ public partial class Player : CharacterBody2D
     public void OnStart()
     {
         SetPhysicsProcess(true);
+        _sprite.Show();
     }
 
     public void OnHit()
@@ -111,5 +112,11 @@ public partial class Player : CharacterBody2D
         _sprite.Hide();
         // Must be deferred as we can't change physics properties on a physics callback.
         SetPhysicsProcess(false);
+    }
+
+    public void OnRespawn()
+    {
+        // TODO: Reverse particles
+        OnStart();
     }
 }
