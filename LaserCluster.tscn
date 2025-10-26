@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbpbet2vablsa"]
+
+[ext_resource type="Script" uid="uid://dfy3l6tt4g8jm" path="res://LaserCluster.cs" id="1_pu6u8"]
+[ext_resource type="PackedScene" uid="uid://cawecc3p1ujry" path="res://laser_group.tscn" id="2_amij8"]
+
+[node name="LaserCluster" type="Node2D"]
+script = ExtResource("1_pu6u8")
+LaserGroupScene = ExtResource("2_amij8")

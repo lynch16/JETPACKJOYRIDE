@@ -10,9 +10,9 @@ public partial class Player : CharacterBody2D
     public PackedScene BulletScene { get; set; }
 
     [Export]
-    private float _flightSpeed = 8000f;
+    private float FlightSpeed = 8000f;
     [Export]
-    private float _fallSpeed = 12000f;
+    private float FallSpeed = 12000f;
 
     public Vector2 ScreenSize;
 
@@ -50,7 +50,7 @@ public partial class Player : CharacterBody2D
 
         if (Input.IsActionPressed("move_up"))
         {
-            Velocity = Vector2.Up * _flightSpeed * (float)delta;
+            Velocity = Vector2.Up * FlightSpeed * (float)delta;
 
             if (!_bulletSpawned)
             {
@@ -73,7 +73,7 @@ public partial class Player : CharacterBody2D
             }
         } else
         {
-            Velocity = Vector2.Down * _fallSpeed * (float)delta;
+            Velocity = Vector2.Down * FallSpeed * (float)delta;
         }
 
         MoveAndSlide();

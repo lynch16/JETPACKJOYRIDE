@@ -81,7 +81,6 @@ color = Color(1, 0.8509804, 0.5019608, 1)
 alpha_curve = SubResource("CurveTexture_qw4y4")
 
 [node name="MissileEnemy" type="Area2D"]
-position = Vector2(0, 5)
 script = ExtResource("1_vge7o")
 
 [node name="Missile" type="Sprite2D" parent="."]

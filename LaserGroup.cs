@@ -4,7 +4,9 @@ using System.Reflection.Metadata;
 
 public partial class LaserGroup : Area2D
 {
-    private bool _laserEnabled = false;
+    private bool _laserEnabled = true;
+    private bool _laserOn = false;
+    private bool _hasFired = false;
     private float _screenWarningOffset = 40f;
     private Vector2 _velocity = Globals.BaseGameSpeed * Vector2.Left;
 
@@ -40,40 +42,45 @@ public partial class LaserGroup : Area2D
         // Create a capsule collider across the two nodes
         _crossBeamCollider = new CollisionShape2D();
         // Position Collider along the same X axis, centered between the two nodes on the Y axis
-        _crossBeamCollider.Position = new Vector2(nodeDistance / 2, getYPos());
+        _crossBeamCollider.Position = new Vector2(nodeDistance / 2, nodeA.Position.Y);
 
         // Set the size of the collider to be the same size as the Nodes
         var crossBeamColliderShape = new RectangleShape2D();
         crossBeamColliderShape.Size = new Vector2(nodeDistance, _crossBeamWidth);
         _crossBeamCollider.Shape = crossBeamColliderShape;
-        _crossBeamCollider.Disabled = true;
         AddChild(_crossBeamCollider);
 
         // Create a line between the two nodes
         _crossBeam = new Line2D();
         _crossBeam.Width = _crossBeamWidth;
         // Create the Line2D with points at the ends of the nodes
-        _crossBeam.AddPoint(new Vector2(nodeA.Position.X, nodeA.Position.Y + getYPos()));
-        _crossBeam.AddPoint(new Vector2(nodeB.Position.X, nodeB.Position.Y + getYPos()));
+        _crossBeam.AddPoint(new Vector2(nodeA.Position.X, nodeA.Position.Y));
+        _crossBeam.AddPoint(new Vector2(nodeB.Position.X, nodeB.Position.Y));
 
         var texture = GD.Load<Texture2D>("res://Assets/Sprites/LaserBeam.png");
         _crossBeam.Texture = texture;
         _crossBeam.TextureMode = Line2D.LineTextureMode.Stretch;
         AddChild(_crossBeam);
-        _crossBeam.Hide();
-    }
 
-    private float getYPos()
-    {
-        var nodeA = GetNode<Area2D>("LaserModuleA");
-        return nodeA.GetNode<CollisionShape2D>("CollisionShape2D").Shape.GetRect().Size.Y / 8;
+        GetNode<AnimationPlayer>("LaserModuleA/AnimationPlayer").Play("default");
+        GetNode<AnimationPlayer>("LaserModuleB/AnimationPlayer").Play("default");
+        // TODO: Show laser particles that get bigger the closer to final trigger
+
+        TurnOffLaser();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (!_laserEnabled)
+        if (!_laserOn)
         {
-            Position = Position.Lerp(new Vector2(_player.Position.X - _screenWarningOffset, _targetYPosition ?? _player.Position.Y), (float)delta * FollowSpeed);
+            if (_hasFired)
+            {
+                Position += _velocity * (float)delta;
+            }
+            else
+            {
+                Position = Position.Lerp(new Vector2(_player.Position.X - _screenWarningOffset, _targetYPosition ?? _player.Position.Y), (float)delta * FollowSpeed);
+            }
         }
 
         // Dequeue if has flowed off screne
@@ -83,17 +90,45 @@ public partial class LaserGroup : Area2D
         }
     }
 
-    public void setTargetPosition(float? targetPosition)
+    public void SetTargetPosition(float? targetPosition)
     {
         _targetYPosition = targetPosition;  
     }
 
-    public void EnableLaser()
+    public void DisableLaser()
     {
-        _laserEnabled = true;
-        _crossBeam.Show();
-        _crossBeamCollider.Disabled = false;
-        // TODO: Show laser particles
+        TurnOffLaser();
+        // Change to different color
+        _laserEnabled = false;
+        GetNode<Node2D>("LaserModuleA/Sprite2D").SelfModulate = Colors.SlateGray;
+        GetNode<AnimationPlayer>("LaserModuleA/AnimationPlayer").Stop();
+        GetNode<Node2D>("LaserModuleB/Sprite2D").SelfModulate = Colors.SlateGray;
+        GetNode<AnimationPlayer>("LaserModuleB/AnimationPlayer").Stop();
+    }
+
+    public void TurnOffLaser()
+    {
+        _laserOn = false;
+        _crossBeam.Hide();
+        _crossBeamCollider.Disabled = true;
+    }
+
+    public void StartLaser()
+    {
+        // Prevent startup if laser disabled
+        if (_laserEnabled)
+        {
+            _laserOn = true;
+            _crossBeam.Show();
+            _crossBeamCollider.Disabled = false;
+        }
+            GetNode<Timer>("LaserRunTimer").Start();
+    }
+
+    private void OnLaserRunTimerTimeout()
+    {
+        TurnOffLaser();
+        _hasFired = true;
     }
 
     private void OnBodyEntered(Node2D body)
@@ -101,7 +136,7 @@ public partial class LaserGroup : Area2D
         if (body is Player)
         {
             (body as Player).OnHit();
-            _laserEnabled = false;
+            _laserOn = false;
         }
     }
 }
