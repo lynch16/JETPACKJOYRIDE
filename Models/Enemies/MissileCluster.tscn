@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://xfisthgep6sc"]
+
+[ext_resource type="Script" uid="uid://bv8i2lxbda1j2" path="res://Models/Enemies/MissileCluster.cs" id="1_bqmge"]
+[ext_resource type="PackedScene" uid="uid://5qfwupwkjgdn" path="res://Models/Enemies/MissleEnemy.tscn" id="2_1kph2"]
+
+[node name="MissileCluster" type="Node2D"]
+script = ExtResource("1_bqmge")
+Missle = ExtResource("2_1kph2")

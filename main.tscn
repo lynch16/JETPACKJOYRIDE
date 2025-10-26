@@ -5,12 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://bom2uw0pew3sm" path="res://Assets/Sprites/640x360 Layout.png" id="4_4c57u"]
 [ext_resource type="Script" uid="uid://c04tndq1vs6gq" path="res://ParallaxBackground.cs" id="4_efxa6"]
 [ext_resource type="PackedScene" uid="uid://brxke4tjw0xwo" path="res://Models/SpawnManager.tscn" id="4_lquwl"]
-[ext_resource type="PackedScene" uid="uid://5qfwupwkjgdn" path="res://Models/MissleEnemy.tscn" id="6_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://xfisthgep6sc" path="res://Models/Enemies/MissileCluster.tscn" id="6_ycdy4"]
 [ext_resource type="Script" uid="uid://i5l5hutkqfyb" path="res://ScoreManager.cs" id="7_272bh"]
-[ext_resource type="PackedScene" uid="uid://bxcib8pe1cic1" path="res://Models/ElectricDumbells.tscn" id="7_w48qg"]
+[ext_resource type="PackedScene" uid="uid://bxcib8pe1cic1" path="res://Models/Enemies/ElectricDumbells.tscn" id="7_w48qg"]
 [ext_resource type="Script" uid="uid://c0ex7vxsvq4i2" path="res://SaveManager.cs" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Coin.cs" id="8_efxa6"]
-[ext_resource type="PackedScene" uid="uid://dbpbet2vablsa" path="res://LaserCluster.tscn" id="8_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://dbpbet2vablsa" path="res://Models/Enemies/LaserCluster.tscn" id="8_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://bo6fd1r6fdngu" path="res://hud.tscn" id="9_kek77"]
 [ext_resource type="Script" uid="uid://jnspxwbgpj6p" path="res://CoinManager.cs" id="11_ycdy4"]
 
@@ -138,8 +138,6 @@ region_rect = Rect2(0, 0, 640, 360)
 
 [node name="Player" parent="World" instance=ExtResource("2_0xm2m")]
 position = Vector2(82, 302)
-_flightSpeed = 8000.0
-_fallSpeed = 12000.0
 
 [node name="Floor" type="CharacterBody2D" parent="World"]
 position = Vector2(320, 347)
