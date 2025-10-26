@@ -37,8 +37,6 @@ public partial class MissileEnemy : Area2D
         _warningSprite.Animation = "default";
         _warningSprite.Play();
         _warningSprite.Show();
-
-        GetNode<Main>("/root/Main").GameOver += OnGameOver;
     }
 
     public void SetPlayerFollower(bool isFollower)
@@ -130,11 +128,5 @@ public partial class MissileEnemy : Area2D
         _missileSprite.Hide();
 
         isDieing = true;
-    }
-
-    // Detonate all missiles on GameOver
-    private void OnGameOver()
-    {
-        Hit();
     }
 }

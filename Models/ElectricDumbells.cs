@@ -95,6 +95,12 @@ public partial class ElectricDumbells : Area2D
             _dumbellEnabled = false;
             var lineParticles = GetNode<GpuParticles2D>("LineParticles");
             lineParticles.Hide();
+
+            var alphaParticles = GetNode<GpuParticles2D>("NodeAlpha/GPUParticles2D");
+            alphaParticles.Hide();
+
+            var betaParticles = GetNode<GpuParticles2D>("NodeBeta/GPUParticles2D");
+            betaParticles.Hide();
         }
     }
 }
