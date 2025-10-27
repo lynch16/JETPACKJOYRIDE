@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://crxefok6puy3u"]
+[gd_scene load_steps=19 format=3 uid="uid://crxefok6puy3u"]
 
 [ext_resource type="Script" uid="uid://x0vs4sxphovn" path="res://Models/Player.cs" id="1_lbduh"]
 [ext_resource type="Texture2D" uid="uid://cuhq1ss0tm76v" path="res://Assets/Sprites/PlayerFlying.png" id="2_psw0r"]
@@ -67,13 +67,45 @@ curve = SubResource("Curve_fhulu")
 particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 1.0
+direction = Vector3(-1, 0, 0)
 spread = 180.0
 initial_velocity_max = 500.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 99.99998
 gravity = Vector3(0, 0, 0)
 scale_min = 3.0
 scale_max = 5.0
 color = Color(1, 0.57254905, 0, 1)
 alpha_curve = SubResource("CurveTexture_1e64u")
+
+[sub_resource type="Curve" id="Curve_vq5x4"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fhulu"]
+curve = SubResource("Curve_vq5x4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1e64u"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 100.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(-1, 0, 0)
+spread = 180.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+radial_velocity_min = -500.0
+radial_velocity_max = -2.2351742e-05
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 5.0
+color = Color(0.6431373, 0.77254903, 1, 1)
+alpha_curve = SubResource("CurveTexture_fhulu")
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_lbduh")
@@ -111,10 +143,21 @@ one_shot = true
 material = SubResource("CanvasItemMaterial_vq5x4")
 emitting = false
 amount = 200
-lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_1ea65")
 
+[node name="RespawnAnimation" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_vq5x4")
+emitting = false
+amount = 200
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_1e64u")
+
+[node name="Timer" type="Timer" parent="RespawnAnimation"]
+one_shot = true
+
 [connection signal="timeout" from="BulletSpawnTimer" to="." method="OnBulletTimerSpawnEnd"]
 [connection signal="timeout" from="MuzzleFlash/MuzzleFlashTimer" to="." method="OnMuzzleFlashTimerEnd"]
+[connection signal="timeout" from="RespawnAnimation/Timer" to="." method="StartCharacter"]

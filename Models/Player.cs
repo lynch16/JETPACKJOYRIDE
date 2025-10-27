@@ -22,6 +22,7 @@ public partial class Player : CharacterBody2D
     private bool _bulletSpawned = false;
     private int _bulletSpawnDirection = 1;
     private int _bulletSpread = 8;
+    private bool _hasDied = false;
 
     private Node2D _bulletSpawnPoint;
     private AnimatedSprite2D _sprite;
@@ -98,10 +99,22 @@ public partial class Player : CharacterBody2D
         _muzzleFlash.Hide();
     }
 
-    public void OnStart()
+    private void StartCharacter()
     {
         SetPhysicsProcess(true);
         _sprite.Show();
+    }
+
+    // TODO: This is clunky b/c env starts moving before the player has started running
+    public void OnStart()
+    {
+        if (_hasDied)
+        {
+            OnRespawn();
+        } else
+        {
+            StartCharacter();
+        }
     }
 
     public void OnHit()
@@ -112,11 +125,12 @@ public partial class Player : CharacterBody2D
         _sprite.Hide();
         // Must be deferred as we can't change physics properties on a physics callback.
         SetPhysicsProcess(false);
+        _hasDied = true;
     }
 
     public void OnRespawn()
     {
-        // TODO: Reverse particles
-        OnStart();
+        GetNode<GpuParticles2D>("RespawnAnimation").Emitting = true;
+        GetNode<Timer>("RespawnAnimation/Timer").Start();
     }
 }
