@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo6fd1r6fdngu"]
+[gd_scene load_steps=7 format=3 uid="uid://bo6fd1r6fdngu"]
 
 [ext_resource type="Script" uid="uid://42jdx1je2xvc" path="res://Hud.cs" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://dfumfopir2a43" path="res://Assets/Sprites/Coin.png" id="2_64ctp"]
 [ext_resource type="Texture2D" uid="uid://d1xvqddyj8phw" path="res://Assets/Sprites/PlayerHead.png" id="3_8sq4i"]
+[ext_resource type="FontFile" uid="uid://buhfcqj7w7j88" path="res://Assets/Fonts/VCR_OSD_MONO_1.001.ttf" id="4_640wx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_37p78"]
 font_color = Color(0.417282, 0.622036, 0.957308, 1)
@@ -11,58 +12,249 @@ font_color = Color(0.417282, 0.622036, 0.957308, 1)
 font_color = Color(0.937255, 0.74902, 0.0156863, 1)
 
 [node name="HUD" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_37p78")
 
-[node name="StartButton" type="Button" parent="."]
-offset_left = 294.0
-offset_top = 167.0
-offset_right = 340.0
-offset_bottom = 198.0
-text = "Start"
+[node name="GameUI" type="Node2D" parent="."]
 
-[node name="Score" type="Label" parent="."]
+[node name="Score" type="Label" parent="GameUI"]
 offset_right = 40.0
 offset_bottom = 23.0
 text = "0"
 
-[node name="HighScore" type="Label" parent="."]
+[node name="HighScore" type="Label" parent="GameUI"]
 offset_top = 24.0
 offset_right = 40.0
 offset_bottom = 47.0
 text = "0m"
 label_settings = SubResource("LabelSettings_37p78")
 
-[node name="CoinCount" type="Label" parent="."]
+[node name="CoinCount" type="Label" parent="GameUI"]
 offset_top = 48.0
 offset_right = 40.0
 offset_bottom = 71.0
 text = "0"
 label_settings = SubResource("LabelSettings_8sq4i")
 
-[node name="CoinCountIcon" type="Sprite2D" parent="CoinCount"]
+[node name="CoinCountIcon" type="Sprite2D" parent="GameUI/CoinCount"]
 position = Vector2(12, 4)
 texture = ExtResource("2_64ctp")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
-[node name="LifeCountGrid" type="GridContainer" parent="."]
+[node name="LifeCountGrid" type="GridContainer" parent="GameUI"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -19.0
-offset_top = 4.0
-offset_right = -3.0
-offset_bottom = 21.0
+offset_left = 618.0
+offset_top = 2.0
+offset_right = 634.0
+offset_bottom = 19.0
 grow_horizontal = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LifeCountGrid"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GameUI/LifeCountGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="LifeSprite" type="TextureRect" parent="LifeCountGrid/HBoxContainer"]
+[node name="LifeSprite" type="TextureRect" parent="GameUI/LifeCountGrid/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("3_8sq4i")
 
-[connection signal="button_up" from="StartButton" to="." method="OnStartButtonClicked"]
+[node name="TitleUI" type="Node2D" parent="."]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TitleUI"]
+offset_right = 640.0
+offset_bottom = 360.0
+size_flags_vertical = 3
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TitleUI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_640wx")
+theme_override_font_sizes/normal_font_size = 48
+text = "Blaster Booster"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TitleUI/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StartButton" type="Button" parent="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Start"
+
+[node name="QuitButton" type="Button" parent="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Desktop"
+
+[node name="ContinueMenu" type="Node2D" parent="."]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ContinueMenu"]
+offset_right = 640.0
+offset_bottom = 360.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContinueMenu/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ContinueTextContainer" type="HBoxContainer" parent="ContinueMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="Label" parent="ContinueMenu/HBoxContainer/VBoxContainer/ContinueTextContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+theme_override_font_sizes/font_size = 32
+text = "Continue? "
+
+[node name="CountDown" type="Label" parent="ContinueMenu/HBoxContainer/VBoxContainer/ContinueTextContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+theme_override_font_sizes/font_size = 32
+text = "9"
+
+[node name="ButtonContainer" type="HBoxContainer" parent="ContinueMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RespawnButton" type="Button" parent="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Respawn"
+
+[node name="QuitToTitleButton" type="Button" parent="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Title"
+
+[node name="QuitToDesktopButton" type="Button" parent="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Desktop"
+
+[node name="Timer" type="Timer" parent="ContinueMenu"]
+
+[node name="GameOverMenu" type="Node2D" parent="."]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameOverMenu"]
+offset_right = 640.0
+offset_bottom = 360.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RichTextLabel" type="Label" parent="GameOverMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+theme_override_font_sizes/font_size = 32
+text = "Game Over"
+
+[node name="ButtonContainer" type="HBoxContainer" parent="GameOverMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOverMenu/HBoxContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="QuitToTitleButton" type="Button" parent="GameOverMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Title"
+
+[node name="QuitToDesktopButton" type="Button" parent="GameOverMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Desktop"
+
+[node name="PauseMenu" type="Node2D" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu"]
+offset_right = 640.0
+offset_bottom = 360.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RichTextLabel" type="Label" parent="PauseMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+theme_override_font_sizes/font_size = 32
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="PauseMenu/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Resume"
+
+[node name="QuitToTitleButton" type="Button" parent="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Title"
+
+[node name="QuitToDesktopButton" type="Button" parent="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_640wx")
+text = "Quit to Desktop"
+
+[connection signal="button_up" from="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/StartButton" to="." method="OnStartButtonClicked"]
+[connection signal="pressed" from="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="OnQuit"]
+[connection signal="pressed" from="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/RespawnButton" to="." method="OnStartButtonClicked"]
+[connection signal="pressed" from="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToTitleButton" to="." method="OnQuitToTitle"]
+[connection signal="pressed" from="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToDesktopButton" to="." method="OnQuit"]
+[connection signal="timeout" from="ContinueMenu/Timer" to="." method="OnContinueTimerTimeout"]
+[connection signal="pressed" from="GameOverMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToTitleButton" to="." method="OnQuitToTitle"]
+[connection signal="pressed" from="GameOverMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToDesktopButton" to="." method="OnQuit"]
+[connection signal="pressed" from="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="Unpause"]
+[connection signal="pressed" from="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToTitleButton" to="." method="OnQuitToTitle"]
+[connection signal="pressed" from="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToDesktopButton" to="." method="OnQuit"]

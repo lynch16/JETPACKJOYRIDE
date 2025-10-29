@@ -6,26 +6,40 @@ public partial class Hud : CanvasLayer
     [Signal]
     public delegate void StartEventHandler();
 
+    [Signal]
+    public delegate void PauseEventHandler();
+
     private HBoxContainer _lifeContainer;
     private ScoreManager _scoreManager;
     private TextureRect _baseSprite;
 
+    private bool _isPaused = false;
+    private bool _isRunning = false;
+
+    private int _initialContinueTImeout = 10;
+    private int _continueTimeout = 10;
+
     public override void _Ready()
     {
-        _lifeContainer = GetNode<HBoxContainer>("LifeCountGrid/HBoxContainer");
+        _lifeContainer = GetNode<HBoxContainer>("GameUI/LifeCountGrid/HBoxContainer");
         _scoreManager = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager");
-        _baseSprite = GetNode<TextureRect>("LifeCountGrid/HBoxContainer/LifeSprite");
+        _baseSprite = GetNode<TextureRect>("GameUI/LifeCountGrid/HBoxContainer/LifeSprite");
         GetNode<Main>("/root/Main").Connect(Main.SignalName.GameOver, Callable.From(
     OnGameOver));
         UpdateLifeCounter();
 
+        UpdateContinueCountdown();
         RenderTitleScreen();
-    }
+    } 
 
     public void OnStartButtonClicked()
     {
         EmitSignal(SignalName.Start);
         RenderDefault();
+        _isRunning = true;
+        _continueTimeout = _initialContinueTImeout;
+        GetNode<Timer>("ContinueMenu/Timer").Stop();
+        UpdateContinueCountdown();
     }
 
     public override void _Process(double delta)
@@ -33,28 +47,57 @@ public partial class Hud : CanvasLayer
         var currentScore = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetScore();
         var highScore = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetHighScore();
 
-        GetNode<Label>("Score").Text = currentScore.ToString() + "m";
+        GetNode<Label>("GameUI/Score").Text = currentScore.ToString() + "m";
 
         if (highScore > 0 && currentScore > highScore)
         {
-            GetNode<Label>("HighScore").Text = "NEW HIGH SCORE!";
+            GetNode<Label>("GameUI/HighScore").Text = "NEW HIGH SCORE!";
         }
         else
         {
-            GetNode<Label>("HighScore").Text = "Best: " + highScore.ToString() + "m";
+            GetNode<Label>("GameUI/HighScore").Text = "Best: " + highScore.ToString() + "m";
         }
 
-        var coinCountLabel = GetNode<Label>("CoinCount");
+        var coinCountLabel = GetNode<Label>("GameUI/CoinCount");
         coinCountLabel.Text = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetCoinCount().ToString();
-        var coinCountIcon = GetNode<Sprite2D>("CoinCount/CoinCountIcon");
+        var coinCountIcon = GetNode<Sprite2D>("GameUI/CoinCount/CoinCountIcon");
         coinCountIcon.Position = new Vector2(coinCountLabel.GetMinimumSize().X, coinCountIcon.Position.Y);
 
         UpdateLifeCounter();
+
+        if (_isRunning && Input.IsActionJustPressed("pause"))
+        {
+            if (_isPaused) {
+                Unpause();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
+    }
+
+
+    public void PauseGame()
+    {
+        RenderPauseScreen();
+        _isPaused = true;
+        _isRunning = false;
+        GetTree().Paused = true;
+    }
+
+    public void Unpause()
+    {
+        RenderDefault();
+        _isPaused = false;
+        _isRunning = true;
+        GetTree().Paused = false;
     }
 
     public void OnGameOver()
     {
         var currLives = _scoreManager.GetLivesLeft();
+        _isRunning = false;
 
         if (currLives < 0)
         {
@@ -65,7 +108,6 @@ public partial class Hud : CanvasLayer
         {
             RenderRestartScreen();
         }
-
     }
 
     public void UpdateLifeCounter()
@@ -98,31 +140,77 @@ public partial class Hud : CanvasLayer
 
     public void RenderRestartScreen()
     {
-        // TODO: Add Quit button
-        GetNode<Button>("StartButton").Text = "Restart?";
-        GetNode<Button>("StartButton").Show();
+        GetNode<Node2D>("ContinueMenu").Show();
+        GetNode<Node2D>("GameUI").Show();
+        GetNode<Node2D>("TitleUI").Hide();
+        GetNode<Node2D>("GameOverMenu").Hide();
+        GetNode<Node2D>("PauseMenu").Hide();
+
+        GetNode<Timer>("ContinueMenu/Timer").Start();
+    }
+
+    public void OnContinueTimerTimeout()
+    {
+        _continueTimeout--;
+
+        if (_continueTimeout < 0 )
+        {
+            OnQuitToTitle();
+        }
+
+        UpdateContinueCountdown();
+    }
+
+    private void UpdateContinueCountdown()
+    {
+        GetNode<Label>("ContinueMenu/HBoxContainer/VBoxContainer/ContinueTextContainer/CountDown").Text = _continueTimeout.ToString();
+    }
+
+    public void RenderPauseScreen()
+    {
+        GetNode<Node2D>("PauseMenu").Show();
+        GetNode<Node2D>("GameUI").Show();
+        GetNode<Node2D>("TitleUI").Hide();
+        GetNode<Node2D>("GameOverMenu").Hide();
+        GetNode<Node2D>("ContinueMenu").Hide();
     }
 
     public void RenderTitleScreen()
     {
-        GetNode<Button>("StartButton").Show();
-        GetNode<Label>("Score").Hide();
-        GetNode<Label>("HighScore").Hide();
-        GetNode<Label>("CoinCount").Hide();
-        GetNode<GridContainer>("LifeCountGrid").Hide();
+        GetNode<Node2D>("TitleUI").Show();
+        GetNode<Node2D>("ContinueMenu").Hide();
+        GetNode<Node2D>("GameUI").Hide();
+        GetNode<Node2D>("GameOverMenu").Hide();
+        GetNode<Node2D>("PauseMenu").Hide();
     }
 
     public void RenderGameOverScreen()
     {
-        // TODO: No restart possible. Just game over
+        GetNode<Node2D>("GameOverMenu").Show();
+        GetNode<Node2D>("GameUI").Show();
+        GetNode<Node2D>("ContinueMenu").Hide();
+        GetNode<Node2D>("TitleUI").Hide();
+        GetNode<Node2D>("PauseMenu").Hide();
     }
 
     public void RenderDefault()
     {
-        GetNode<Button>("StartButton").Hide();
-        GetNode<Label>("Score").Show();
-        GetNode<Label>("HighScore").Show();
-        GetNode<Label>("CoinCount").Show();
-        GetNode<GridContainer>("LifeCountGrid").Show();
+        GetNode<Node2D>("GameUI").Show();
+        GetNode<Node2D>("TitleUI").Hide();
+        GetNode<Node2D>("GameOverMenu").Hide();
+        GetNode<Node2D>("ContinueMenu").Hide();
+        GetNode<Node2D>("PauseMenu").Hide();
+    }
+
+    public void OnQuit()
+    {
+        Unpause();
+        GetTree().Quit();
+    }
+
+    public void OnQuitToTitle()
+    {
+        Unpause();
+        GetTree().ReloadCurrentScene();
     }
 }
