@@ -23,6 +23,7 @@ public partial class Player : CharacterBody2D
     private int _bulletSpawnDirection = 1;
     private int _bulletSpread = 8;
     private bool _hasDied = false;
+    private bool _gameStarted = false;
 
     private Node2D _bulletSpawnPoint;
     private AnimatedSprite2D _sprite;
@@ -43,6 +44,8 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (!_gameStarted) {  return; }
+
         if (Input.IsActionJustPressed("move_up"))
         {
             isRunning = false;
@@ -108,6 +111,7 @@ public partial class Player : CharacterBody2D
     // TODO: This is clunky b/c env starts moving before the player has started running
     public void OnStart()
     {
+        _gameStarted = true;
         if (_hasDied)
         {
             OnRespawn();
