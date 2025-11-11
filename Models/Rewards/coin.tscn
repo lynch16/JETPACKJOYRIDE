@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=4 uid="uid://cifkafpfq1n17"]
 
-[ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Coin.cs" id="1_e7wkf"]
+[ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Rewards/Coin.cs" id="1_e7wkf"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_nfet2"]
 _data = PackedByteArray("AAADAAUAAAABAAAAIAAAACAAAACuAAAAUklGRqYAAABXRUJQVlA4TJkAAAAvH8AHEBcgEEjyh9hrM4Fscn/IFopAIEltf5Mp5j+g+oPb2nbbBocdtAdGAhgqBSttgSWUOsdFbQJeIaL/atu2YbSlR2/AvYEqXz4AiUCZA8gG7aegfjikPJJmwSQ76ZRx32TXdcSdv4wOTpBkI5WMdpH93/g4fsbXI1Gdl83JK5fwo93GmvGqyashW/4F4+Yssv87Pol8bwAA")

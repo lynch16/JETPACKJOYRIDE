@@ -227,6 +227,7 @@ public partial class Hud : CanvasLayer
 
     public void RenderTitleScreen()
     {
+        // TODO: Title screen sound
         GetNode<Node2D>("TitleUI").Show();
         GetNode<Node2D>("ContinueMenu").Hide();
         GetNode<Node2D>("GameUI").Hide();

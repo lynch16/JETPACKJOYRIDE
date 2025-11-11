@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6v6tw0su7rnl"]
-
-[ext_resource type="PackedScene" uid="uid://cifkafpfq1n17" path="res://Models/coin.tscn" id="1_g02du"]
-[ext_resource type="Script" uid="uid://jnspxwbgpj6p" path="res://CoinManager.cs" id="1_p03fk"]
-
-[node name="CoinManager" type="Node2D"]
-script = ExtResource("1_p03fk")
-CoinScene = ExtResource("1_g02du")

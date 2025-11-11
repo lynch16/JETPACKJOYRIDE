@@ -32,7 +32,7 @@ public partial class SpawnManager : Node
         (GD.Load<PackedScene>("res://Models/Enemies/LaserCluster.tscn"), 5), 2
     );
     private WeightedListItem<(PackedScene scene, int timeout)> CoinManager = new(
-        (GD.Load<PackedScene>("res://CoinManager.tscn"), 5), 1
+        (GD.Load<PackedScene>("res://Models/Rewards/CoinManager.tscn"), 5), 1
     );
     public override void _Ready()
     {
