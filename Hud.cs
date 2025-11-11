@@ -7,14 +7,23 @@ public partial class Hud : CanvasLayer
     public delegate void StartEventHandler();
 
     [Signal]
+    public delegate void RespawnEventHandler();
+
+    [Signal]
     public delegate void PauseEventHandler();
 
     private HBoxContainer _lifeContainer;
     private ScoreManager _scoreManager;
     private TextureRect _baseSprite;
 
+    [Export]
+    private AudioStream[] _themes;
+    private int _currentThemePlayer = 0;
+    private AudioStreamPlayer2D _soundtrack;
+
     private bool _isPaused = false;
     private bool _isRunning = false;
+    private bool _isFirstStart = true;
 
     private int _initialContinueTImeout = 10;
     private int _continueTimeout = 10;
@@ -24,6 +33,9 @@ public partial class Hud : CanvasLayer
         _lifeContainer = GetNode<HBoxContainer>("GameUI/LifeCountGrid/HBoxContainer");
         _scoreManager = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager");
         _baseSprite = GetNode<TextureRect>("GameUI/LifeCountGrid/HBoxContainer/LifeSprite");
+        _soundtrack = GetNode<AudioStreamPlayer2D>("Soundtrack");
+        _soundtrack.Finished += _OnSoundtrackFinished;
+
         GetNode<Main>("/root/Main").Connect(Main.SignalName.GameOver, Callable.From(
     OnGameOver));
         UpdateLifeCounter();
@@ -32,14 +44,50 @@ public partial class Hud : CanvasLayer
         RenderTitleScreen();
     } 
 
+    private void _OnSoundtrackFinished()
+    {
+        _currentThemePlayer++;
+        StartSoundtrack();
+    }
+
     public void OnStartButtonClicked()
     {
-        EmitSignal(SignalName.Start);
+        
+
         RenderDefault();
         _isRunning = true;
         _continueTimeout = _initialContinueTImeout;
         GetNode<Timer>("ContinueMenu/Timer").Stop();
         UpdateContinueCountdown();
+
+        if (_isFirstStart)
+        {
+            _isFirstStart = false;
+            StartSoundtrack();
+            EmitSignal(SignalName.Start);
+        }
+        else
+        {
+            GetNode<Timer>("RespawnTimer").Start(Globals.RespawnTimeout);
+            EmitSignal(SignalName.Respawn);
+        }
+    }
+
+    private void OnRespawnTimeout()
+    {
+        EmitSignal(SignalName.Start);
+        StartSoundtrack();
+    }
+
+    private void StartSoundtrack()
+    {
+        if (_currentThemePlayer > _themes.Length) 
+            {
+                _currentThemePlayer = 0;
+            }
+
+        _soundtrack.Stream = _themes[_currentThemePlayer];
+        _soundtrack.Play();
     }
 
     public override void _Process(double delta)
@@ -98,6 +146,7 @@ public partial class Hud : CanvasLayer
     {
         var currLives = _scoreManager.GetLivesLeft();
         _isRunning = false;
+        _soundtrack.Stop();
 
         if (currLives < 0)
         {
@@ -163,6 +212,7 @@ public partial class Hud : CanvasLayer
 
     private void UpdateContinueCountdown()
     {
+        // TODO: Play countdown sound
         GetNode<Label>("ContinueMenu/HBoxContainer/VBoxContainer/ContinueTextContainer/CountDown").Text = _continueTimeout.ToString();
     }
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxcib8pe1cic1"]
+[gd_scene load_steps=9 format=3 uid="uid://bxcib8pe1cic1"]
 
 [ext_resource type="Script" uid="uid://d36jokg1sqmnm" path="res://Models/Enemies/ElectricDumbells.cs" id="1_efmh0"]
 [ext_resource type="Texture2D" uid="uid://bam72dkgypo5t" path="res://Assets/Sprites/ElectricBall.png" id="2_3shkt"]
+[ext_resource type="AudioStream" uid="uid://cp6t2h0by4rmo" path="res://Assets/Sounds/lighting-1.mp3" id="3_0jkbc"]
 
 [sub_resource type="CurveTexture" id="CurveTexture_3shkt"]
 
@@ -91,5 +92,10 @@ texture = ExtResource("2_3shkt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NodeBeta"]
 shape = SubResource("CircleShape2D_efmh0")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0jkbc")
+autoplay = true
+parameters/looping = true
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]

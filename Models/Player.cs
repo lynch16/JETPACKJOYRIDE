@@ -29,6 +29,8 @@ public partial class Player : CharacterBody2D
     private AnimatedSprite2D _sprite;
     private Sprite2D _muzzleFlash;
     private GpuParticles2D _deathParticles;
+    private AudioStreamPlayer2D _bulletSoundPlayer;
+    private AudioStreamPlayer2D _footstepSoundPlayer;
 
     public override void _Ready()
     {
@@ -37,9 +39,13 @@ public partial class Player : CharacterBody2D
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _muzzleFlash = GetNode<Sprite2D>("MuzzleFlash");
         _deathParticles = GetNode<GpuParticles2D>("DeathAnimation");
+        _bulletSoundPlayer = _muzzleFlash.GetNode<AudioStreamPlayer2D>("BulletSounds");
+        _footstepSoundPlayer = GetNode<AudioStreamPlayer2D>("FootstepSounds");
 
         GetNode<Hud>("/root/Main/HUD").Connect(Hud.SignalName.Start, Callable.From(
           OnStart));
+        GetNode<Hud>("/root/Main/HUD").Connect(Hud.SignalName.Respawn, Callable.From(
+            OnRespawn));
     }
 
     public override void _PhysicsProcess(double delta)
@@ -55,6 +61,12 @@ public partial class Player : CharacterBody2D
         if (Input.IsActionPressed("move_up"))
         {
             Velocity = Vector2.Up * FlightSpeed * (float)delta;
+
+            _bulletSoundPlayer = _muzzleFlash.GetNode<AudioStreamPlayer2D>("BulletSounds");
+            if (!_bulletSoundPlayer.Playing)
+            {
+                _bulletSoundPlayer.Play();
+            }
 
             if (!_bulletSpawned)
             {
@@ -77,6 +89,7 @@ public partial class Player : CharacterBody2D
             }
         } else
         {
+            _bulletSoundPlayer.Stop();
             Velocity = Vector2.Down * FallSpeed * (float)delta;
         }
 
@@ -87,8 +100,15 @@ public partial class Player : CharacterBody2D
             if (!isRunning)
             {
                 _sprite.Animation = "running";
+                if (!_footstepSoundPlayer.Playing)
+                {
+                    _footstepSoundPlayer.Play();
+                }
                 isRunning = true;
             }
+        } else
+        {
+            _footstepSoundPlayer.Stop();
         }
     }
 
@@ -108,17 +128,10 @@ public partial class Player : CharacterBody2D
         _sprite.Show();
     }
 
-    // TODO: This is clunky b/c env starts moving before the player has started running
     public void OnStart()
     {
         _gameStarted = true;
-        if (_hasDied)
-        {
-            OnRespawn();
-        } else
-        {
-            StartCharacter();
-        }
+        StartCharacter();
     }
 
     public void OnHit()
@@ -126,6 +139,10 @@ public partial class Player : CharacterBody2D
         EmitSignal(SignalName.Hit);
         GD.Print("Player Hit");
         _deathParticles.Emitting = true;
+        _bulletSoundPlayer.Stop();
+        _footstepSoundPlayer.Stop();
+        _deathParticles.GetNode<AudioStreamPlayer2D>("DeathSound").Play();
+
         _sprite.Hide();
         // Must be deferred as we can't change physics properties on a physics callback.
         SetPhysicsProcess(false);
@@ -134,7 +151,11 @@ public partial class Player : CharacterBody2D
 
     public void OnRespawn()
     {
-        GetNode<GpuParticles2D>("RespawnAnimation").Emitting = true;
-        GetNode<Timer>("RespawnAnimation/Timer").Start();
+        var respawnAnimation = GetNode<GpuParticles2D>("RespawnAnimation");
+        respawnAnimation.Lifetime = Globals.RespawnTimeout;
+        respawnAnimation.Emitting = true;
+        GetNode<Timer>("RespawnAnimation/Timer").Start(Globals.RespawnTimeout);
+        _deathParticles.GetNode<AudioStreamPlayer2D>("DeathSound").Stop();
+        // TODO: Respawn sound
     }
 }

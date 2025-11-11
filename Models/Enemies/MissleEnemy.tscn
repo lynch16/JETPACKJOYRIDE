@@ -1,9 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://5qfwupwkjgdn"]
+[gd_scene load_steps=19 format=3 uid="uid://5qfwupwkjgdn"]
 
 [ext_resource type="Script" uid="uid://d0xfk2dmd32k" path="res://Models/Enemies/MissileEnemy.cs" id="1_vge7o"]
 [ext_resource type="Texture2D" uid="uid://c00gss416jy5j" path="res://Assets/Sprites/Missile.png" id="2_ay8wp"]
 [ext_resource type="Texture2D" uid="uid://cd56i62fwfymb" path="res://Assets/Sprites/Warning.png" id="3_4ybwe"]
+[ext_resource type="AudioStream" uid="uid://dlm34ys6uowx0" path="res://Assets/Sounds/soundscrate-Rocket_Missile_Launch_28.wav" id="3_aqpib"]
 [ext_resource type="Texture2D" uid="uid://xpbe8mo24y20" path="res://Assets/Sprites/WarningComplete.png" id="4_4ybwe"]
+[ext_resource type="AudioStream" uid="uid://brrotu0ra7n8n" path="res://Assets/Sounds/soundscrate-radar-ping-speed-3.mp3" id="6_81bib"]
+[ext_resource type="AudioStream" uid="uid://mrjvwfqm5hs7" path="res://Assets/Sounds/soundscrate-Giant_Explosion_6.wav" id="6_x161k"]
+[ext_resource type="AudioStream" uid="uid://3w8atow4b418" path="res://Assets/Sounds/soundscrate-radar-ping-speed-4.mp3" id="7_d4w7b"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a7tgf"]
 radius = 4.00009
@@ -95,6 +99,10 @@ texture = ExtResource("2_ay8wp")
 region_enabled = true
 region_rect = Rect2(0, 32, 32, 32)
 
+[node name="LaunchSound" type="AudioStreamPlayer2D" parent="Missile"]
+stream = ExtResource("3_aqpib")
+volume_db = 10.0
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(0, -1)
@@ -135,6 +143,12 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "d30a967630a85a662ddf28b908e118b2"
 
+[node name="WarningSound" type="AudioStreamPlayer2D" parent="Warning"]
+stream = ExtResource("6_81bib")
+
+[node name="UrgentWarningSound" type="AudioStreamPlayer2D" parent="Warning"]
+stream = ExtResource("7_d4w7b")
+
 [node name="SmokeParticles" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_4ybwe")
 emitting = false
@@ -150,6 +164,9 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_2dho0")
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="Explosion"]
+stream = ExtResource("6_x161k")
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="timeout" from="LaunchTimer" to="." method="OnLaunchTimerEnd"]

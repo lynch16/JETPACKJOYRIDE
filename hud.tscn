@@ -247,6 +247,12 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("4_640wx")
 text = "Quit to Desktop"
 
+[node name="Soundtrack" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
+
+[node name="RespawnTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="button_up" from="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/StartButton" to="." method="OnStartButtonClicked"]
 [connection signal="pressed" from="TitleUI/HBoxContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="OnQuit"]
 [connection signal="pressed" from="ContinueMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/RespawnButton" to="." method="OnStartButtonClicked"]
@@ -258,3 +264,4 @@ text = "Quit to Desktop"
 [connection signal="pressed" from="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/ResumeButton" to="." method="Unpause"]
 [connection signal="pressed" from="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToTitleButton" to="." method="OnQuitToTitle"]
 [connection signal="pressed" from="PauseMenu/HBoxContainer/VBoxContainer/ButtonContainer/MarginContainer/VBoxContainer/QuitToDesktopButton" to="." method="OnQuit"]
+[connection signal="timeout" from="RespawnTimer" to="." method="OnRespawnTimeout"]

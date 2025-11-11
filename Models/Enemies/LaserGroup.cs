@@ -64,9 +64,10 @@ public partial class LaserGroup : Area2D
 
         GetNode<AnimationPlayer>("LaserModuleA/AnimationPlayer").Play("default");
         GetNode<AnimationPlayer>("LaserModuleB/AnimationPlayer").Play("default");
-        // TODO: Show laser particles that get bigger the closer to final trigger
 
         TurnOffLaser();
+        // TODO: Show laser particles that get bigger the closer to final trigger to simulate the sharge up
+        GetNode<AudioStreamPlayer2D>("LaserStartTimer/LaserCharge").Play();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -111,6 +112,8 @@ public partial class LaserGroup : Area2D
         _laserOn = false;
         _crossBeam.Hide();
         _crossBeamCollider.Disabled = true;
+        GetNode<AudioStreamPlayer2D>("LaserStartTimer/LaserCharge").Stop();
+        GetNode<AudioStreamPlayer2D>("LaserRunTimer/LaserSound").Stop();
     }
 
     public void StartLaser()
@@ -122,7 +125,10 @@ public partial class LaserGroup : Area2D
             _crossBeam.Show();
             _crossBeamCollider.Disabled = false;
         }
-            GetNode<Timer>("LaserRunTimer").Start();
+        
+        GetNode<Timer>("LaserRunTimer").Start();
+        GetNode<AudioStreamPlayer2D>("LaserRunTimer/LaserSound").Play();
+        GetNode<AudioStreamPlayer2D>("LaserStartTimer/LaserCharge").Stop();
     }
 
     private void OnLaserRunTimerTimeout()

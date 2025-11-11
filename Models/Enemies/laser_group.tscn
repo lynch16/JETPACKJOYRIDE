@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cawecc3p1ujry"]
+[gd_scene load_steps=11 format=3 uid="uid://cawecc3p1ujry"]
 
 [ext_resource type="Script" uid="uid://bju2arpvyndtf" path="res://Models/Enemies/LaserGroup.cs" id="1_rmru1"]
 [ext_resource type="Texture2D" uid="uid://clhgyljg4eje" path="res://Assets/Sprites/Laser.png" id="2_kud1c"]
+[ext_resource type="AudioStream" uid="uid://bht72m1tum5kf" path="res://Assets/Sounds/SoundsCrate-Laser_Charge_Up_14.mp3" id="3_jl0iq"]
+[ext_resource type="AudioStream" uid="uid://njd406p0jvla" path="res://Assets/Sounds/soundscrate-scifi-weapon-laser-2.wav" id="3_ljfwj"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kud1c"]
 
@@ -137,8 +139,14 @@ wait_time = 3.5
 one_shot = true
 autostart = true
 
+[node name="LaserCharge" type="AudioStreamPlayer2D" parent="LaserStartTimer"]
+stream = ExtResource("3_jl0iq")
+
 [node name="LaserRunTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="LaserSound" type="AudioStreamPlayer2D" parent="LaserRunTimer"]
+stream = ExtResource("3_ljfwj")
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="timeout" from="LaserStartTimer" to="." method="StartLaser"]

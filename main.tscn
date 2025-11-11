@@ -5,14 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://bom2uw0pew3sm" path="res://Assets/Sprites/640x360 Layout.png" id="4_4c57u"]
 [ext_resource type="Script" uid="uid://c04tndq1vs6gq" path="res://ParallaxBackground.cs" id="4_efxa6"]
 [ext_resource type="PackedScene" uid="uid://brxke4tjw0xwo" path="res://Models/SpawnManager.tscn" id="4_lquwl"]
-[ext_resource type="PackedScene" uid="uid://xfisthgep6sc" path="res://Models/Enemies/MissileCluster.tscn" id="6_ycdy4"]
 [ext_resource type="Script" uid="uid://i5l5hutkqfyb" path="res://ScoreManager.cs" id="7_272bh"]
-[ext_resource type="PackedScene" uid="uid://bxcib8pe1cic1" path="res://Models/Enemies/ElectricDumbells.tscn" id="7_w48qg"]
 [ext_resource type="Script" uid="uid://c0ex7vxsvq4i2" path="res://SaveManager.cs" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Coin.cs" id="8_efxa6"]
-[ext_resource type="PackedScene" uid="uid://dbpbet2vablsa" path="res://Models/Enemies/LaserCluster.tscn" id="8_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://bo6fd1r6fdngu" path="res://hud.tscn" id="9_kek77"]
+[ext_resource type="AudioStream" uid="uid://cipjwicshkqpb" path="res://Assets/Sounds/Theme0.wav" id="11_w48qg"]
 [ext_resource type="Script" uid="uid://jnspxwbgpj6p" path="res://CoinManager.cs" id="11_ycdy4"]
+[ext_resource type="AudioStream" uid="uid://bqclc484krkc6" path="res://Assets/Sounds/Theme1.mp3" id="12_vivmo"]
+[ext_resource type="AudioStream" uid="uid://cwy0oyr2lv48v" path="res://Assets/Sounds/Theme2.mp3" id="13_2cqfq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(642, 45.5)
@@ -159,7 +159,6 @@ shape = SubResource("RectangleShape2D_lquwl")
 [node name="Utilities" type="Node" parent="."]
 
 [node name="SpawnManager" parent="Utilities" instance=ExtResource("4_lquwl")]
-EnemyScenes = Array[PackedScene]([ExtResource("6_ycdy4"), ExtResource("7_w48qg"), ExtResource("8_ycdy4")])
 CoinScene = SubResource("PackedScene_vivmo")
 
 [node name="ScoreManager" type="Node" parent="Utilities"]
@@ -169,3 +168,4 @@ script = ExtResource("7_272bh")
 script = ExtResource("8_5vw27")
 
 [node name="HUD" parent="." instance=ExtResource("9_kek77")]
+_themes = Array[AudioStream]([ExtResource("11_w48qg"), ExtResource("12_vivmo"), ExtResource("13_2cqfq")])

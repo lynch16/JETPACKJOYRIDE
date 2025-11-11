@@ -23,6 +23,7 @@ public partial class Coin : Area2D
         {
             GD.Print("COIN!");
             GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").OnCoinHit();
+            // TODO: Need coin pickup sound
             QueueFree();
         }
     }

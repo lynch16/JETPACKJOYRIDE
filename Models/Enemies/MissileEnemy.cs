@@ -32,6 +32,7 @@ public partial class MissileEnemy : Area2D
         _smokeParticles = GetNode<GpuParticles2D>("SmokeParticles");
         _explosionParticles = GetNode<GpuParticles2D>("Explosion");
         GetNode<Timer>("LaunchTimer").Start();
+        _warningSprite.GetNode<AudioStreamPlayer2D>("WarningSound").Play();
 
         Position = new Vector2(_screenSize.X - _screenWarningOffset, 0);
 
@@ -54,6 +55,8 @@ public partial class MissileEnemy : Area2D
         {
             _warningSprite.Animation = "UrgentWarning";
             _warningSprite.Play();
+            _warningSprite.GetNode<AudioStreamPlayer2D>("WarningSound").Stop();
+            _warningSprite.GetNode<AudioStreamPlayer2D>("UrgentWarningSound").Play();
         }
     }
 
@@ -100,6 +103,10 @@ public partial class MissileEnemy : Area2D
         _missileSprite.Show();
         Position = new Vector2(_screenSize.X + _screenWarningOffset, Position.Y);
 
+        _missileSprite.GetNode<AudioStreamPlayer2D>("LaunchSound").Play();
+        _warningSprite.GetNode<AudioStreamPlayer2D>("UrgentWarningSound").Stop();
+        _warningSprite.GetNode<AudioStreamPlayer2D>("WarningSound").Stop();
+
         _velcoity = _launchSpeed * _direction;
         isLaunched = true;
         _smokeParticles.Emitting = true;
@@ -121,6 +128,7 @@ public partial class MissileEnemy : Area2D
 
         _smokeParticles.Emitting = false;
         _explosionParticles.Emitting = true;
+        _explosionParticles.GetNode<AudioStreamPlayer2D>("ExplosionSound").Play();
         _missileSprite.Hide();
 
         isDieing = true;
