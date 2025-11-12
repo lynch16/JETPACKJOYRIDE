@@ -20,6 +20,9 @@ public partial class Main : Node2D
     public override void _Process(double delta)
     {
         var currentScore = scoreManager.GetScore();
+
+        // TODO: Increase game speed
+
         if ( currentScore > 200 && currentDifficulty < 1)
         {
             currentDifficulty++;
@@ -29,6 +32,11 @@ public partial class Main : Node2D
             currentDifficulty++;
             spawnManager.RampDifficulty(currentDifficulty);
         }
+    }
+
+    private void IncreaseGameSpeed()
+    {
+
     }
 
     public void OnPlayerHit()

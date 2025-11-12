@@ -18,12 +18,16 @@ public partial class LaserGroup : Area2D
     private const float FollowSpeed = 3.0f;
     private float? _targetYPosition = null;
 
+    // Same material is used for both effects
+    private ParticleProcessMaterial _laserParticleMaterial;
+
     /**
  * 2. Based on size, position nodeA and nodeB within bounds
  * 3. Initialize collision to match
  **/
     public override void _Ready()
     {
+        _laserParticleMaterial = GetNode<GpuParticles2D>("LaserModuleA/Sprite2D/GPUParticles2D").ProcessMaterial as ParticleProcessMaterial;
         _player = GetNode<Player>("/root/Main/World/Player");
         var screenSize = GetViewportRect().Size;
         var floorHeight = GetNode<CollisionShape2D>("/root/Main/World/Floor/CollisionShape2D").Shape.GetRect().Size.Y;
@@ -66,12 +70,22 @@ public partial class LaserGroup : Area2D
         GetNode<AnimationPlayer>("LaserModuleB/AnimationPlayer").Play("default");
 
         TurnOffLaser();
-        // TODO: Show laser particles that get bigger the closer to final trigger to simulate the sharge up
         GetNode<AudioStreamPlayer2D>("LaserStartTimer/LaserCharge").Play();
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        var laserStartTimer = GetNode<Timer>("LaserStartTimer");
+        var timeLeft = (laserStartTimer.WaitTime - laserStartTimer.TimeLeft) / laserStartTimer.WaitTime;
+
+        // Show laser particles that get bigger the closer to final trigger to simulate the sharge up
+        if (timeLeft > 0.5)
+        {
+            GetNode<GpuParticles2D>("LaserModuleA/Sprite2D/GPUParticles2D").Emitting = true;
+            GetNode<GpuParticles2D>("LaserModuleB/Sprite2D/GPUParticles2D").Emitting = true;
+            _laserParticleMaterial.RadialVelocityMax = (float)timeLeft * 50f;
+        }
+
         if (!_laserOn)
         {
             if (_hasFired)
@@ -105,15 +119,26 @@ public partial class LaserGroup : Area2D
         GetNode<AnimationPlayer>("LaserModuleA/AnimationPlayer").Stop();
         GetNode<Node2D>("LaserModuleB/Sprite2D").SelfModulate = Colors.SlateGray;
         GetNode<AnimationPlayer>("LaserModuleB/AnimationPlayer").Stop();
+        GetNode<GpuParticles2D>("LaserModuleA/Sprite2D/GPUParticles2D").Hide();
+        GetNode<GpuParticles2D>("LaserModuleB/Sprite2D/GPUParticles2D").Hide();
     }
 
     public void TurnOffLaser()
     {
         _laserOn = false;
         _crossBeam.Hide();
-        _crossBeamCollider.Disabled = true;
+        _crossBeamCollider.SetDeferred("disabled", true); // Cant change physics mid frame
         GetNode<AudioStreamPlayer2D>("LaserStartTimer/LaserCharge").Stop();
         GetNode<AudioStreamPlayer2D>("LaserRunTimer/LaserSound").Stop();
+        if (_hasFired)
+        {
+            GetNode<GpuParticles2D>("LaserModuleA/Sprite2D/GPUParticles2D").Hide();
+            GetNode<GpuParticles2D>("LaserModuleB/Sprite2D/GPUParticles2D").Hide();
+        } else
+        {
+            GetNode<GpuParticles2D>("LaserModuleA/Sprite2D/GPUParticles2D").Emitting = false;
+            GetNode<GpuParticles2D>("LaserModuleB/Sprite2D/GPUParticles2D").Emitting = false;
+        }
     }
 
     public void StartLaser()
@@ -133,8 +158,8 @@ public partial class LaserGroup : Area2D
 
     private void OnLaserRunTimerTimeout()
     {
-        TurnOffLaser();
         _hasFired = true;
+        TurnOffLaser();
     }
 
     private void OnBodyEntered(Node2D body)
@@ -142,7 +167,7 @@ public partial class LaserGroup : Area2D
         if (body is Player)
         {
             (body as Player).OnHit();
-            _laserOn = false;
+            TurnOffLaser();
         }
     }
 }

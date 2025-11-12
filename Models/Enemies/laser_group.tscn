@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cawecc3p1ujry"]
+[gd_scene load_steps=12 format=3 uid="uid://cawecc3p1ujry"]
 
 [ext_resource type="Script" uid="uid://bju2arpvyndtf" path="res://Models/Enemies/LaserGroup.cs" id="1_rmru1"]
 [ext_resource type="Texture2D" uid="uid://clhgyljg4eje" path="res://Assets/Sprites/Laser.png" id="2_kud1c"]
@@ -6,6 +6,17 @@
 [ext_resource type="AudioStream" uid="uid://njd406p0jvla" path="res://Assets/Sounds/soundscrate-scifi-weapon-laser-2.wav" id="3_ljfwj"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_kud1c"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jl0iq"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 9.999977
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
 
 [sub_resource type="Animation" id="Animation_rmru1"]
 length = 4.0
@@ -83,6 +94,14 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "de5cbf84622667ff653ba2a4cb1539be"
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="LaserModuleA/Sprite2D"]
+modulate = Color(0.97783285, 0.050533265, 0, 1)
+position = Vector2(14, 0)
+emitting = false
+amount = 200
+lifetime = 0.2
+process_material = SubResource("ParticleProcessMaterial_jl0iq")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LaserModuleA"]
 libraries = {
 &"": SubResource("AnimationLibrary_kud1c")
@@ -124,6 +143,14 @@ metadata/_aseprite_wizard_config_ = {
 "source_uid": 7082958311089737470
 }
 metadata/_aseprite_wizard_source_file_hash_ = "2edf0dd36ad6a2bb645575e594fe3e16"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="LaserModuleB/Sprite2D"]
+modulate = Color(0.97783285, 0.050533265, 0, 1)
+position = Vector2(-13, 0)
+emitting = false
+amount = 200
+lifetime = 0.2
+process_material = SubResource("ParticleProcessMaterial_jl0iq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaserModuleB"]
 rotation = 1.5439273
