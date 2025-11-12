@@ -84,7 +84,6 @@ public partial class ScoreManager : Node
         if (_score > _highScore)
         {
             _highScore = _score;
-            GD.Print("NEW _highScore " + _highScore);
             _saveManager.SaveHighScore(_highScore);
         }
     }

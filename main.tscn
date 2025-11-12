@@ -121,23 +121,23 @@ script = ExtResource("1_ig7tw")
 [node name="World" type="Node" parent="."]
 
 [node name="ParallaxBackground" type="Node2D" parent="World"]
+script = ExtResource("4_efxa6")
+_backgrounds = Array[PackedScene]([ExtResource("8_cegan"), ExtResource("4_074og"), ExtResource("5_cegan"), ExtResource("6_82xsv"), ExtResource("7_getpj")])
 
 [node name="ParallaxLayer" type="Parallax2D" parent="World/ParallaxBackground"]
 repeat_size = Vector2(1920, 0)
-script = ExtResource("4_efxa6")
-_backgrounds = [ExtResource("8_cegan"), ExtResource("4_074og"), ExtResource("5_cegan"), ExtResource("6_82xsv"), ExtResource("7_getpj")]
 
-[node name="Cell1" type="Sprite2D" parent="World/ParallaxBackground/ParallaxLayer"]
+[node name="Cell1" type="Sprite2D" parent="World/ParallaxBackground"]
 texture_repeat = 2
 position = Vector2(320, 180)
 texture = ExtResource("4_4c57u")
 region_rect = Rect2(0, 0, 640, 360)
 
-[node name="Cell2" type="Sprite2D" parent="World/ParallaxBackground/ParallaxLayer"]
+[node name="Cell2" type="Sprite2D" parent="World/ParallaxBackground"]
 position = Vector2(960, 180)
 texture = ExtResource("4_4c57u")
 
-[node name="Cell3" type="Sprite2D" parent="World/ParallaxBackground/ParallaxLayer"]
+[node name="Cell3" type="Sprite2D" parent="World/ParallaxBackground"]
 position = Vector2(1600, 180)
 texture = ExtResource("4_4c57u")
 

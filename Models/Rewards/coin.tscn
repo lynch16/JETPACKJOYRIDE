@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=4 uid="uid://cifkafpfq1n17"]
+[gd_scene load_steps=10 format=4 uid="uid://cifkafpfq1n17"]
 
 [ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Rewards/Coin.cs" id="1_e7wkf"]
+[ext_resource type="AudioStream" uid="uid://cfyrpjl1hgsbu" path="res://Assets/Sounds/soundscrate-coin-01.mp3" id="2_x7hlj"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_nfet2"]
 _data = PackedByteArray("AAADAAUAAAABAAAAIAAAACAAAACuAAAAUklGRqYAAABXRUJQVlA4TJkAAAAvH8AHEBcgEEjyh9hrM4Fscn/IFopAIEltf5Mp5j+g+oPb2nbbBocdtAdGAhgqBSttgSWUOsdFbQJeIaL/atu2YbSlR2/AvYEqXz4AiUCZA8gG7aegfjikPJJmwSQ76ZRx32TXdcSdv4wOTpBkI5WMdpH93/g4fsbXI1Gdl83JK5fwo93GmvGqyashW/4F4+Yssv87Pol8bwAA")
@@ -78,4 +79,10 @@ metadata/_aseprite_wizard_source_file_hash_ = "700d62a373130c793ccb6bc186778069"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_02tke")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_x7hlj")
+
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="timeout" from="Timer" to="." method="OnTimer"]

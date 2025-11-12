@@ -126,6 +126,7 @@ public partial class Player : CharacterBody2D
     {
         SetPhysicsProcess(true);
         _sprite.Show();
+        GetNode<AudioStreamPlayer2D>("RespawnAnimation/RespawnSound").Stop();
     }
 
     public void OnStart()
@@ -137,7 +138,6 @@ public partial class Player : CharacterBody2D
     public void OnHit()
     {
         EmitSignal(SignalName.Hit);
-        GD.Print("Player Hit");
         _deathParticles.Emitting = true;
         _bulletSoundPlayer.Stop();
         _footstepSoundPlayer.Stop();
@@ -156,6 +156,6 @@ public partial class Player : CharacterBody2D
         respawnAnimation.Emitting = true;
         GetNode<Timer>("RespawnAnimation/Timer").Start(Globals.RespawnTimeout);
         _deathParticles.GetNode<AudioStreamPlayer2D>("DeathSound").Stop();
-        // TODO: Respawn sound
+        GetNode<AudioStreamPlayer2D>("RespawnAnimation/RespawnSound").Play();
     }
 }

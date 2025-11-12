@@ -90,7 +90,7 @@ public partial class LaserGroup : Area2D
         {
             if (_hasFired)
             {
-                Position += _velocity * (float)delta;
+                Position += _velocity * 2 * (float)delta;
             }
             else
             {

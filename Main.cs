@@ -9,6 +9,7 @@ public partial class Main : Node2D
     private ScoreManager scoreManager;
     private SpawnManager spawnManager;
     private int currentDifficulty = 0;
+    private int startingScore = 0;
 
     public override void _Ready()
     {
@@ -21,27 +22,36 @@ public partial class Main : Node2D
     {
         var currentScore = scoreManager.GetScore();
 
-        // TODO: Increase game speed
+        if (currentScore > 0)
+        {
+            var targetGameSpeed = Globals.GameSpeedRamp[currentDifficulty];
+            Globals.BaseGameSpeed = Mathf.Lerp(Globals.BaseGameSpeed, targetGameSpeed, (float)delta);
+        }
 
-        if ( currentScore > 200 && currentDifficulty < 1)
+        var scoreIncrease = currentScore - startingScore;
+
+        if (scoreIncrease > 200 && currentDifficulty < 1)
         {
             currentDifficulty++;
             spawnManager.RampDifficulty(currentDifficulty);
-        } else if ( currentScore > 500 && currentDifficulty < 2)
+        } else if (scoreIncrease > 400 && currentDifficulty < 2)
         {
             currentDifficulty++;
             spawnManager.RampDifficulty(currentDifficulty);
         }
     }
 
-    private void IncreaseGameSpeed()
-    {
-
-    }
-
     public void OnPlayerHit()
     {
         scoreManager.RemoveLife();
+
+        var currentScore = scoreManager.GetScore();
+        startingScore = currentScore;
+
+        if (currentDifficulty > 0)
+        {
+            currentDifficulty--;
+        }
 
         EmitSignal(SignalName.GameOver);
     }

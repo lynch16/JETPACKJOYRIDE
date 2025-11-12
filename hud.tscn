@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bo6fd1r6fdngu"]
+[gd_scene load_steps=9 format=3 uid="uid://bo6fd1r6fdngu"]
 
 [ext_resource type="Script" uid="uid://42jdx1je2xvc" path="res://Hud.cs" id="1_37p78"]
 [ext_resource type="Texture2D" uid="uid://dfumfopir2a43" path="res://Assets/Sprites/Coin.png" id="2_64ctp"]
 [ext_resource type="Texture2D" uid="uid://d1xvqddyj8phw" path="res://Assets/Sprites/PlayerHead.png" id="3_8sq4i"]
 [ext_resource type="FontFile" uid="uid://buhfcqj7w7j88" path="res://Assets/Fonts/VCR_OSD_MONO_1.001.ttf" id="4_640wx"]
+[ext_resource type="AudioStream" uid="uid://ck668sdrd3c2j" path="res://Assets/Sounds/soundscrate-optimistic-turnout-bpm-96.mp3" id="5_a2258"]
+[ext_resource type="AudioStream" uid="uid://blpbmxicaha1n" path="res://Assets/Sounds/soundscrate-Bomb_Timer_Organic_Beep_3.mp3" id="6_1xsix"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_37p78"]
 font_color = Color(0.417282, 0.622036, 0.957308, 1)
@@ -106,6 +108,10 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("4_640wx")
 text = "Quit to Desktop"
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="TitleUI"]
+stream = ExtResource("5_a2258")
+parameters/looping = true
+
 [node name="ContinueMenu" type="Node2D" parent="."]
 visible = false
 
@@ -161,6 +167,9 @@ theme_override_fonts/font = ExtResource("4_640wx")
 text = "Quit to Desktop"
 
 [node name="Timer" type="Timer" parent="ContinueMenu"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="ContinueMenu"]
+stream = ExtResource("6_1xsix")
 
 [node name="GameOverMenu" type="Node2D" parent="."]
 visible = false

@@ -11,6 +11,7 @@ public partial class Bullet : Area2D
     {
         // Add some random left/right to the down vector
         Rotation = _direction.Angle() - (float)(Math.PI/2);
+        _launchSpeed = Globals.BaseGameSpeed * 4; // Twice speed of movement
     }
 
     public override void _PhysicsProcess(double delta)

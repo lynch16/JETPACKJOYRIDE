@@ -9,7 +9,6 @@ public partial class CoinManager : Node2D
     [Export]
     public PackedScene CoinScene { get; set; }
     private float _screenWarningOffset = 10f;
-    private Vector2 _velocity = Globals.BaseGameSpeed * Vector2.Left;
     private float _coinDistanceRatio = 16f;
 
     private float _floorHeight;
@@ -187,7 +186,7 @@ public partial class CoinManager : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        Position += _velocity * (float)delta;
+        Position += Globals.BaseGameSpeed * Vector2.Left * (float)delta;
 
         if (GetChildCount() == 0)
         {

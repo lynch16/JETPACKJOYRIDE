@@ -151,7 +151,6 @@ public partial class Hud : CanvasLayer
         if (currLives < 0)
         {
             RenderGameOverScreen();
-            GD.Print("Game Over");
         }
         else
         {
@@ -196,6 +195,7 @@ public partial class Hud : CanvasLayer
         GetNode<Node2D>("PauseMenu").Hide();
 
         GetNode<Timer>("ContinueMenu/Timer").Start();
+        GetNode<AudioStreamPlayer2D>("ContinueMenu/AudioStreamPlayer2D").Play();
     }
 
     public void OnContinueTimerTimeout()
@@ -212,7 +212,6 @@ public partial class Hud : CanvasLayer
 
     private void UpdateContinueCountdown()
     {
-        // TODO: Play countdown sound
         GetNode<Label>("ContinueMenu/HBoxContainer/VBoxContainer/ContinueTextContainer/CountDown").Text = _continueTimeout.ToString();
     }
 
@@ -227,12 +226,13 @@ public partial class Hud : CanvasLayer
 
     public void RenderTitleScreen()
     {
-        // TODO: Title screen sound
         GetNode<Node2D>("TitleUI").Show();
         GetNode<Node2D>("ContinueMenu").Hide();
         GetNode<Node2D>("GameUI").Hide();
         GetNode<Node2D>("GameOverMenu").Hide();
         GetNode<Node2D>("PauseMenu").Hide();
+
+        GetNode<AudioStreamPlayer2D>("TitleUI/AudioStreamPlayer2D").Play();
     }
 
     public void RenderGameOverScreen()
@@ -251,6 +251,9 @@ public partial class Hud : CanvasLayer
         GetNode<Node2D>("GameOverMenu").Hide();
         GetNode<Node2D>("ContinueMenu").Hide();
         GetNode<Node2D>("PauseMenu").Hide();
+
+        GetNode<AudioStreamPlayer2D>("TitleUI/AudioStreamPlayer2D").Stop();
+        GetNode<AudioStreamPlayer2D>("ContinueMenu/AudioStreamPlayer2D").Stop();
     }
 
     public void OnQuit()

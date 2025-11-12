@@ -20,19 +20,19 @@ public partial class SpawnManager : Node
         (GD.Load<PackedScene>("res://Models/Enemies/ElectricDumbells.tscn"), 5), 2
     );
     private readonly WeightedListItem<(PackedScene scene, int timeout)> MissileEnemy = new(
-        (GD.Load<PackedScene>("res://Models/Enemies/MissleEnemy.tscn"), 5), 1
+        (GD.Load<PackedScene>("res://Models/Enemies/MissleEnemy.tscn"), 5), 3
     );
     private WeightedListItem<(PackedScene scene, int timeout)> MissileCluster = new(
         (GD.Load<PackedScene>("res://Models/Enemies/MissileCluster.tscn"), 5), 2
     );
     private WeightedListItem<(PackedScene scene, int timeout)> LaserEnemy = new(
-        (GD.Load<PackedScene>("res://Models/Enemies/laser_group.tscn"), 5), 1
+        (GD.Load<PackedScene>("res://Models/Enemies/laser_group.tscn"), 5), 3
     );
     private WeightedListItem<(PackedScene scene, int timeout)> LaserCluster = new(
         (GD.Load<PackedScene>("res://Models/Enemies/LaserCluster.tscn"), 5), 2
     );
     private WeightedListItem<(PackedScene scene, int timeout)> CoinManager = new(
-        (GD.Load<PackedScene>("res://Models/Rewards/CoinManager.tscn"), 5), 1
+        (GD.Load<PackedScene>("res://Models/Rewards/CoinManager.tscn"), 5), 2
     );
     public override void _Ready()
     {
@@ -72,7 +72,6 @@ public partial class SpawnManager : Node
     public void OnEnemySpawnTimerEnd()
     {
         var enemy = _nextSpawn.Instantiate();
-        GD.Print("enemy ", enemy);
         AddChild(enemy);
         _nextSpawn = null;
         StartSpawnTimer();
@@ -84,7 +83,8 @@ public partial class SpawnManager : Node
         {
             var newItems = new List<WeightedListItem<(PackedScene scene, int timeout)>>()
             {
-                CoinManager
+                CoinManager,
+                MissileEnemy,
             };
             EnemyScenes.Add(newItems);
         }
@@ -92,7 +92,6 @@ public partial class SpawnManager : Node
         {
             var newItems = new List<WeightedListItem<(PackedScene scene, int timeout)>>()
             {
-                MissileEnemy,
                 LaserEnemy,
             };
             EnemyScenes.Add(newItems);

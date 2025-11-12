@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://crxefok6puy3u"]
+[gd_scene load_steps=23 format=3 uid="uid://crxefok6puy3u"]
 
 [ext_resource type="Script" uid="uid://x0vs4sxphovn" path="res://Models/Player/Player.cs" id="1_lbduh"]
 [ext_resource type="Texture2D" uid="uid://cuhq1ss0tm76v" path="res://Assets/Sprites/PlayerFlying.png" id="2_psw0r"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://d2y554vtop3sl" path="res://Assets/Sounds/soundscrate-machine-gun-fire-1.wav" id="6_1e64u"]
 [ext_resource type="AudioStream" uid="uid://b120r5buahr47" path="res://Assets/Sounds/SoundsCrate-Sci-Fi_Explosion_01.wav" id="7_1ea65"]
 [ext_resource type="AudioStream" uid="uid://bh3k2wcflriuh" path="res://Assets/Sounds/soundscrate-running-wood-floor.wav" id="8_1ea65"]
+[ext_resource type="AudioStream" uid="uid://dq77p7xu5j5vm" path="res://Assets/Sounds/soundscrate-brand-new-start.mp3" id="8_o3uiv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vycai"]
 atlas = ExtResource("3_jqrfy")
@@ -165,6 +166,9 @@ process_material = SubResource("ParticleProcessMaterial_1e64u")
 
 [node name="Timer" type="Timer" parent="RespawnAnimation"]
 one_shot = true
+
+[node name="RespawnSound" type="AudioStreamPlayer2D" parent="RespawnAnimation"]
+stream = ExtResource("8_o3uiv")
 
 [node name="FootstepSounds" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_1ea65")
