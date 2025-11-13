@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfn36812t1pus"]
+
+[ext_resource type="Texture2D" uid="uid://5kma8wvdd7xh" path="res://Assets/Sprites/OnlyPosts.png" id="1_tbbhm"]
+[ext_resource type="Texture2D" uid="uid://cthks27dk3cn4" path="res://Assets/Sprites/LightTexture.png" id="2_my5t0"]
+
+[node name="DoubleDoors" type="Sprite2D"]
+texture = ExtResource("1_tbbhm")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
+position = Vector2(161, -90)
+color = Color(1, 0.08235294, 0.015686275, 1)
+energy = 16.0
+texture = ExtResource("2_my5t0")

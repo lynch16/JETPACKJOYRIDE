@@ -1,0 +1,173 @@
+[gd_scene load_steps=19 format=3 uid="uid://5qfwupwkjgdn"]
+
+[ext_resource type="Script" uid="uid://d0xfk2dmd32k" path="res://Models/Enemies/MissileEnemy.cs" id="1_vge7o"]
+[ext_resource type="Texture2D" uid="uid://c00gss416jy5j" path="res://Assets/Sprites/Missile.png" id="2_ay8wp"]
+[ext_resource type="Texture2D" uid="uid://cd56i62fwfymb" path="res://Assets/Sprites/Warning.png" id="3_4ybwe"]
+[ext_resource type="AudioStream" uid="uid://dlm34ys6uowx0" path="res://Assets/Sounds/soundscrate-Rocket_Missile_Launch_28.wav" id="3_aqpib"]
+[ext_resource type="Texture2D" uid="uid://xpbe8mo24y20" path="res://Assets/Sprites/WarningComplete.png" id="4_4ybwe"]
+[ext_resource type="AudioStream" uid="uid://brrotu0ra7n8n" path="res://Assets/Sounds/soundscrate-radar-ping-speed-3.mp3" id="6_81bib"]
+[ext_resource type="AudioStream" uid="uid://mrjvwfqm5hs7" path="res://Assets/Sounds/soundscrate-Giant_Explosion_6.wav" id="6_x161k"]
+[ext_resource type="AudioStream" uid="uid://3w8atow4b418" path="res://Assets/Sounds/soundscrate-radar-ping-speed-4.mp3" id="7_d4w7b"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a7tgf"]
+radius = 4.00009
+height = 31.9998
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ybwe"]
+atlas = ExtResource("3_4ybwe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4ybwe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_4ybwe")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"UrgentWarning",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ybwe")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4ybwe"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 3
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_4ybwe"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_pba0v"]
+curve = SubResource("Curve_4ybwe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pba0v"]
+particle_flag_disable_z = true
+gravity = Vector3(0, -5, 0)
+damping_max = 2.0
+alpha_curve = SubResource("CurveTexture_pba0v")
+anim_offset_min = 1.0
+anim_offset_max = 1.0
+
+[sub_resource type="Curve" id="Curve_pba0v"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.87878793, 0.764045), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qw4y4"]
+curve = SubResource("Curve_pba0v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2dho0"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 4.0
+color = Color(1, 0.8509804, 0.5019608, 1)
+alpha_curve = SubResource("CurveTexture_qw4y4")
+
+[node name="MissileEnemy" type="Area2D"]
+script = ExtResource("1_vge7o")
+
+[node name="Missile" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_ay8wp")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Exhaust" type="Sprite2D" parent="Missile"]
+position = Vector2(32, -1)
+texture = ExtResource("2_ay8wp")
+region_enabled = true
+region_rect = Rect2(0, 32, 32, 32)
+
+[node name="LaunchSound" type="AudioStreamPlayer2D" parent="Missile"]
+stream = ExtResource("3_aqpib")
+volume_db = 10.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -1)
+rotation = 1.57071
+shape = SubResource("CapsuleShape2D_a7tgf")
+
+[node name="LaunchTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="ExplosionTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Warning" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_4ybwe")
+animation = &"UrgentWarning"
+autoplay = "default"
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": false,
+"output_section": false,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": false,
+"scale": "1.0",
+"should_round_fps": true,
+"slice": "",
+"source": "res://Assets/Sprites/Warning.aseprite",
+"source_uid": 1123669442996207608
+}
+metadata/_aseprite_wizard_source_file_hash_ = "d30a967630a85a662ddf28b908e118b2"
+
+[node name="WarningSound" type="AudioStreamPlayer2D" parent="Warning"]
+stream = ExtResource("6_81bib")
+
+[node name="UrgentWarningSound" type="AudioStreamPlayer2D" parent="Warning"]
+stream = ExtResource("7_d4w7b")
+
+[node name="SmokeParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_4ybwe")
+emitting = false
+amount = 10
+texture = ExtResource("2_ay8wp")
+lifetime = 0.25
+process_material = SubResource("ParticleProcessMaterial_pba0v")
+
+[node name="Explosion" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 50
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_2dho0")
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="Explosion"]
+stream = ExtResource("6_x161k")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="timeout" from="LaunchTimer" to="." method="OnLaunchTimerEnd"]
+[connection signal="timeout" from="ExplosionTimer" to="." method="OnExplosionTimerEnd"]

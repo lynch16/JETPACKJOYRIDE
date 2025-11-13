@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://c76bj2tgn01dy"
+path="res://.godot/imported/Laser.aseprite-6974d211064ff32f5683797d097d3cec.res"
+
+[deps]
+
+source_file="res://Assets/Sprites/Laser.aseprite"
+dest_files=["res://.godot/imported/Laser.aseprite-6974d211064ff32f5683797d097d3cec.res"]
+
+[params]
+
