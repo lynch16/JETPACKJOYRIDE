@@ -1,15 +1,23 @@
-[gd_scene load_steps=22 format=4 uid="uid://bvt2jc0f1shf1"]
+[gd_scene load_steps=30 format=4 uid="uid://bvt2jc0f1shf1"]
 
 [ext_resource type="Script" uid="uid://bmymwxmtndgte" path="res://Main.cs" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://crxefok6puy3u" path="res://Models/player.tscn" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://crxefok6puy3u" path="res://Models/Player/player.tscn" id="2_0xm2m"]
 [ext_resource type="Texture2D" uid="uid://bom2uw0pew3sm" path="res://Assets/Sprites/640x360 Layout.png" id="4_4c57u"]
-[ext_resource type="Script" uid="uid://c04tndq1vs6gq" path="res://ParallaxBackground.cs" id="4_efxa6"]
+[ext_resource type="PackedScene" uid="uid://bifrl2741v4yq" path="res://Backgrounds/VentNoDoor.tscn" id="4_074og"]
+[ext_resource type="Script" uid="uid://c04tndq1vs6gq" path="res://Utilities/ParallaxBackground.cs" id="4_efxa6"]
 [ext_resource type="PackedScene" uid="uid://brxke4tjw0xwo" path="res://Models/SpawnManager.tscn" id="4_lquwl"]
-[ext_resource type="Script" uid="uid://i5l5hutkqfyb" path="res://ScoreManager.cs" id="7_272bh"]
-[ext_resource type="Script" uid="uid://c0ex7vxsvq4i2" path="res://SaveManager.cs" id="8_5vw27"]
-[ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Coin.cs" id="8_efxa6"]
+[ext_resource type="PackedScene" uid="uid://dllxt4dek5iiu" path="res://Backgrounds/WindowOnly.tscn" id="5_cegan"]
+[ext_resource type="PackedScene" uid="uid://dys13idccx17j" path="res://Backgrounds/WindowWithDoor.tscn" id="6_82xsv"]
+[ext_resource type="Script" uid="uid://i5l5hutkqfyb" path="res://Utilities/ScoreManager.cs" id="7_272bh"]
+[ext_resource type="PackedScene" uid="uid://433ndc0c3rjl" path="res://Backgrounds/WindowWithDoorNoPosts.tscn" id="7_getpj"]
+[ext_resource type="Script" uid="uid://c0ex7vxsvq4i2" path="res://Utilities/SaveManager.cs" id="8_5vw27"]
+[ext_resource type="PackedScene" uid="uid://cqhuxlnqlbv5n" path="res://Backgrounds/DoubleDoors.tscn" id="8_cegan"]
+[ext_resource type="Script" uid="uid://dw7j1uqofx4tk" path="res://Models/Rewards/Coin.cs" id="8_efxa6"]
 [ext_resource type="PackedScene" uid="uid://bo6fd1r6fdngu" path="res://hud.tscn" id="9_kek77"]
-[ext_resource type="Script" uid="uid://jnspxwbgpj6p" path="res://CoinManager.cs" id="11_ycdy4"]
+[ext_resource type="AudioStream" uid="uid://cipjwicshkqpb" path="res://Assets/Sounds/Theme0.wav" id="11_w48qg"]
+[ext_resource type="Script" uid="uid://jnspxwbgpj6p" path="res://Models/Rewards/CoinManager.cs" id="11_ycdy4"]
+[ext_resource type="AudioStream" uid="uid://bqclc484krkc6" path="res://Assets/Sounds/Theme1.mp3" id="12_vivmo"]
+[ext_resource type="AudioStream" uid="uid://cwy0oyr2lv48v" path="res://Assets/Sounds/Theme2.mp3" id="13_2cqfq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig7tw"]
 size = Vector2(642, 45.5)
@@ -37,7 +45,7 @@ region = Rect2(0, 16, 16, 16)
 atlas = SubResource("PortableCompressedTexture2D_nfet2")
 region = Rect2(16, 16, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_4c57u"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ryguw"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -61,7 +69,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_02tke"]
 radius = 7.0
 
-[sub_resource type="PackedScene" id="PackedScene_efxa6"]
+[sub_resource type="PackedScene" id="PackedScene_d13ii"]
 resource_local_to_scene = true
 _bundled = {
 "conn_count": 1,
@@ -71,7 +79,7 @@ _bundled = {
 "node_count": 3,
 "node_paths": [],
 "nodes": PackedInt32Array(-1, -1, 2, 0, -1, 1, 1, 0, 0, 0, 0, 3, 3, -1, 6, 4, 1, 5, 2, 6, 3, 7, 4, 8, 5, 9, 6, 0, 0, 0, 10, 10, -1, 1, 11, 7, 0),
-"variants": [ExtResource("8_efxa6"), 1, SubResource("SpriteFrames_4c57u"), 0.2187, {
+"variants": [ExtResource("8_efxa6"), 1, SubResource("SpriteFrames_ryguw"), 0.2187, {
 "animation_section": false,
 "layer_section": false,
 "output_section": false,
@@ -93,7 +101,7 @@ _bundled = {
 "version": 3
 }
 
-[sub_resource type="PackedScene" id="PackedScene_dg77c"]
+[sub_resource type="PackedScene" id="PackedScene_1u8w0"]
 resource_local_to_scene = true
 _bundled = {
 "conn_count": 0,
@@ -103,7 +111,7 @@ _bundled = {
 "node_count": 1,
 "node_paths": [],
 "nodes": PackedInt32Array(-1, -1, 3, 0, -1, 2, 1, 0, 2, 1, 0),
-"variants": [ExtResource("11_ycdy4"), SubResource("PackedScene_efxa6")],
+"variants": [ExtResource("11_ycdy4"), SubResource("PackedScene_d13ii")],
 "version": 3
 }
 
@@ -113,30 +121,28 @@ script = ExtResource("1_ig7tw")
 [node name="World" type="Node" parent="."]
 
 [node name="ParallaxBackground" type="Node2D" parent="World"]
+script = ExtResource("4_efxa6")
+_backgrounds = Array[PackedScene]([ExtResource("8_cegan"), ExtResource("4_074og"), ExtResource("5_cegan"), ExtResource("6_82xsv"), ExtResource("7_getpj")])
 
 [node name="ParallaxLayer" type="Parallax2D" parent="World/ParallaxBackground"]
 repeat_size = Vector2(1920, 0)
-script = ExtResource("4_efxa6")
 
-[node name="Cell3" type="Sprite2D" parent="World/ParallaxBackground/ParallaxLayer"]
-position = Vector2(1600, 180)
-texture = ExtResource("4_4c57u")
-
-[node name="Cell2" type="Sprite2D" parent="World/ParallaxBackground/ParallaxLayer"]
-position = Vector2(960, 180)
-texture = ExtResource("4_4c57u")
-
-[node name="Cell1" type="Sprite2D" parent="World/ParallaxBackground/ParallaxLayer"]
+[node name="Cell1" type="Sprite2D" parent="World/ParallaxBackground"]
 texture_repeat = 2
 position = Vector2(320, 180)
 texture = ExtResource("4_4c57u")
-region_enabled = true
 region_rect = Rect2(0, 0, 640, 360)
+
+[node name="Cell2" type="Sprite2D" parent="World/ParallaxBackground"]
+position = Vector2(960, 180)
+texture = ExtResource("4_4c57u")
+
+[node name="Cell3" type="Sprite2D" parent="World/ParallaxBackground"]
+position = Vector2(1600, 180)
+texture = ExtResource("4_4c57u")
 
 [node name="Player" parent="World" instance=ExtResource("2_0xm2m")]
 position = Vector2(82, 302)
-_flightSpeed = 8000.0
-_fallSpeed = 12000.0
 
 [node name="Floor" type="CharacterBody2D" parent="World"]
 position = Vector2(320, 347)
@@ -158,7 +164,7 @@ shape = SubResource("RectangleShape2D_lquwl")
 [node name="Utilities" type="Node" parent="."]
 
 [node name="SpawnManager" parent="Utilities" instance=ExtResource("4_lquwl")]
-CoinScene = SubResource("PackedScene_dg77c")
+CoinScene = SubResource("PackedScene_1u8w0")
 
 [node name="ScoreManager" type="Node" parent="Utilities"]
 script = ExtResource("7_272bh")
@@ -167,3 +173,4 @@ script = ExtResource("7_272bh")
 script = ExtResource("8_5vw27")
 
 [node name="HUD" parent="." instance=ExtResource("9_kek77")]
+_themes = Array[AudioStream]([ExtResource("11_w48qg"), ExtResource("12_vivmo"), ExtResource("13_2cqfq")])

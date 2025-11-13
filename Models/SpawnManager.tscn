@@ -1,13 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://brxke4tjw0xwo"]
+[gd_scene load_steps=3 format=3 uid="uid://brxke4tjw0xwo"]
 
 [ext_resource type="Script" uid="uid://doegl25nyar2v" path="res://Models/SpawnManager.cs" id="1_ksm17"]
-[ext_resource type="PackedScene" uid="uid://b6v6tw0su7rnl" path="res://CoinManager.tscn" id="2_7ld0l"]
-[ext_resource type="PackedScene" uid="uid://5qfwupwkjgdn" path="res://Models/MissleEnemy.tscn" id="2_wtj1e"]
-[ext_resource type="PackedScene" uid="uid://bxcib8pe1cic1" path="res://Models/ElectricDumbells.tscn" id="3_g3w1y"]
+[ext_resource type="PackedScene" uid="uid://b6v6tw0su7rnl" path="res://Models/Rewards/CoinManager.tscn" id="2_7ld0l"]
 
 [node name="SpawnManager" type="Node"]
 script = ExtResource("1_ksm17")
-EnemyScenes = Array[PackedScene]([ExtResource("2_wtj1e"), ExtResource("3_g3w1y")])
 CoinScene = ExtResource("2_7ld0l")
 
 [node name="SpawnTimer" type="Timer" parent="."]

@@ -6,10 +6,11 @@ using GdUnit4;
 public class UnitTestExample
 {
     [TestCase]
+    [RequireGodotRuntime]
     public void TestSaveHighScore()
     {
         int highScore = 101;
-        SaveManager manager = new SaveManager();
+        SaveManager manager = Assertions.AutoFree(new SaveManager());
 
         manager.SaveHighScore(highScore, "test");
 
@@ -17,9 +18,10 @@ public class UnitTestExample
     }
 
     [After]
+    [RequireGodotRuntime]
     public void CleanUp()
     {
-        SaveManager manager = new SaveManager();
+        SaveManager manager = Assertions.AutoFree(new SaveManager());
         manager.ClearHighScore("test");
     }
 }
