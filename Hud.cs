@@ -12,7 +12,7 @@ public partial class Hud : CanvasLayer
     [Signal]
     public delegate void PauseEventHandler();
 
-    private HBoxContainer _lifeContainer;
+    private GridContainer _lifeContainer;
     private ScoreManager _scoreManager;
     private TextureRect _baseSprite;
 
@@ -30,9 +30,9 @@ public partial class Hud : CanvasLayer
 
     public override void _Ready()
     {
-        _lifeContainer = GetNode<HBoxContainer>("GameUI/LifeCountGrid/HBoxContainer");
+        _lifeContainer = GetNode<GridContainer>("GameUI/MarginContainer/VBoxContainer/HBoxContainer/LifeCountGrid");
         _scoreManager = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager");
-        _baseSprite = GetNode<TextureRect>("GameUI/LifeCountGrid/HBoxContainer/LifeSprite");
+        _baseSprite = _lifeContainer.GetNode<TextureRect>("LifeSprite");
         _soundtrack = GetNode<AudioStreamPlayer2D>("Soundtrack");
         _soundtrack.Finished += _OnSoundtrackFinished;
 
@@ -95,20 +95,20 @@ public partial class Hud : CanvasLayer
         var currentScore = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetScore();
         var highScore = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetHighScore();
 
-        GetNode<Label>("GameUI/Score").Text = currentScore.ToString() + "m";
+        GetNode<Label>("GameUI/MarginContainer/VBoxContainer/HBoxContainer/Score").Text = currentScore.ToString() + "m";
 
         if (highScore > 0 && currentScore > highScore)
         {
-            GetNode<Label>("GameUI/HighScore").Text = "NEW HIGH SCORE!";
+            GetNode<Label>("GameUI/MarginContainer/VBoxContainer/HighScore").Text = "NEW HIGH SCORE!";
         }
         else
         {
-            GetNode<Label>("GameUI/HighScore").Text = "Best: " + highScore.ToString() + "m";
+            GetNode<Label>("GameUI/MarginContainer/VBoxContainer/HighScore").Text = "Best: " + highScore.ToString() + "m";
         }
 
-        var coinCountLabel = GetNode<Label>("GameUI/CoinCount");
+        var coinCountLabel = GetNode<Label>("GameUI/MarginContainer/VBoxContainer/CoinCount");
         coinCountLabel.Text = GetNode<ScoreManager>("/root/Main/Utilities/ScoreManager").GetCoinCount().ToString();
-        var coinCountIcon = GetNode<Sprite2D>("GameUI/CoinCount/CoinCountIcon");
+        var coinCountIcon = GetNode<Sprite2D>("GameUI/MarginContainer/VBoxContainer/CoinCount/CoinCountIcon");
         coinCountIcon.Position = new Vector2(coinCountLabel.GetMinimumSize().X, coinCountIcon.Position.Y);
 
         UpdateLifeCounter();
@@ -162,6 +162,7 @@ public partial class Hud : CanvasLayer
     {
         var lives = _scoreManager.GetLivesLeft();
         var lifeSpriteCount = _lifeContainer.GetChildCount();
+        _lifeContainer.Columns = lifeSpriteCount;
         var lifeSpriteDiff = lifeSpriteCount - lives;
 
         // Only update HUD for valid values
@@ -189,7 +190,7 @@ public partial class Hud : CanvasLayer
     public void RenderRestartScreen()
     {
         GetNode<Node2D>("ContinueMenu").Show();
-        GetNode<Node2D>("GameUI").Show();
+        GetNode<BoxContainer>("GameUI").Show();
         GetNode<Node2D>("TitleUI").Hide();
         GetNode<Node2D>("GameOverMenu").Hide();
         GetNode<Node2D>("PauseMenu").Hide();
@@ -218,7 +219,7 @@ public partial class Hud : CanvasLayer
     public void RenderPauseScreen()
     {
         GetNode<Node2D>("PauseMenu").Show();
-        GetNode<Node2D>("GameUI").Show();
+        GetNode<BoxContainer>("GameUI").Show();
         GetNode<Node2D>("TitleUI").Hide();
         GetNode<Node2D>("GameOverMenu").Hide();
         GetNode<Node2D>("ContinueMenu").Hide();
@@ -228,7 +229,7 @@ public partial class Hud : CanvasLayer
     {
         GetNode<Node2D>("TitleUI").Show();
         GetNode<Node2D>("ContinueMenu").Hide();
-        GetNode<Node2D>("GameUI").Hide();
+        GetNode<BoxContainer>("GameUI").Hide();
         GetNode<Node2D>("GameOverMenu").Hide();
         GetNode<Node2D>("PauseMenu").Hide();
 
@@ -238,7 +239,7 @@ public partial class Hud : CanvasLayer
     public void RenderGameOverScreen()
     {
         GetNode<Node2D>("GameOverMenu").Show();
-        GetNode<Node2D>("GameUI").Show();
+        GetNode<BoxContainer>("GameUI").Show();
         GetNode<Node2D>("ContinueMenu").Hide();
         GetNode<Node2D>("TitleUI").Hide();
         GetNode<Node2D>("PauseMenu").Hide();
@@ -246,7 +247,7 @@ public partial class Hud : CanvasLayer
 
     public void RenderDefault()
     {
-        GetNode<Node2D>("GameUI").Show();
+        GetNode<BoxContainer>("GameUI").Show();
         GetNode<Node2D>("TitleUI").Hide();
         GetNode<Node2D>("GameOverMenu").Hide();
         GetNode<Node2D>("ContinueMenu").Hide();
