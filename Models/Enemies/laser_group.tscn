@@ -99,7 +99,7 @@ modulate = Color(0.97783285, 0.050533265, 0, 1)
 position = Vector2(14, 0)
 emitting = false
 amount = 200
-lifetime = 0.2
+lifetime = 0.15000000000000002
 process_material = SubResource("ParticleProcessMaterial_jl0iq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LaserModuleA"]
@@ -149,7 +149,7 @@ modulate = Color(0.97783285, 0.050533265, 0, 1)
 position = Vector2(-13, 0)
 emitting = false
 amount = 200
-lifetime = 0.2
+lifetime = 0.15000000000000002
 process_material = SubResource("ParticleProcessMaterial_jl0iq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaserModuleB"]
