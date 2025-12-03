@@ -7,7 +7,7 @@ public partial class LaserGroup : Area2D
     private bool _laserEnabled = true;
     private bool _laserOn = false;
     private bool _hasFired = false;
-    private float _screenWarningOffset = 40f;
+    private float _screenWarningOffset; // Based on player position so that player is centered in laser beams
     private Vector2 _velocity = Globals.BaseGameSpeed * Vector2.Left;
 
     private CollisionShape2D _crossBeamCollider;
@@ -32,6 +32,7 @@ public partial class LaserGroup : Area2D
         var screenSize = GetViewportRect().Size;
         var floorHeight = GetNode<CollisionShape2D>("/root/Main/World/Floor/CollisionShape2D").Shape.GetRect().Size.Y;
         var ceilingHeight = GetNode<CollisionShape2D>("/root/Main/World/Ceiling/CollisionShape2D").Shape.GetRect().Size.Y;
+        _screenWarningOffset = _player.GlobalPosition.X / 2;
 
         var nodeDistance = screenSize.X - (_screenWarningOffset * 2);
 
