@@ -97,9 +97,10 @@ public partial class Hud : CanvasLayer
 
         GetNode<Label>("GameUI/MarginContainer/VBoxContainer/HBoxContainer/Score").Text = currentScore.ToString() + "m";
 
-        if (highScore > 0 && currentScore > highScore)
+        if (_isRunning && currentScore > highScore)
         {
             GetNode<Label>("GameUI/MarginContainer/VBoxContainer/HighScore").Text = "NEW HIGH SCORE!";
+            GetNode<Label>("GameOverMenu/HBoxContainer/VBoxContainer/GameoverLabel").Text = "NEW HIGH SCORE!";
         }
         else
         {
@@ -160,27 +161,46 @@ public partial class Hud : CanvasLayer
 
     public void UpdateLifeCounter()
     {
-        var lives = _scoreManager.GetLivesLeft();
-        var lifeSpriteCount = _lifeContainer.GetChildCount();
-        _lifeContainer.Columns = lifeSpriteCount;
-        var lifeSpriteDiff = lifeSpriteCount - lives;
-
+        var targetLifeCount = _scoreManager.GetLivesLeft();
+        
         // Only update HUD for valid values
-        if (lives >= 0)
+        if (targetLifeCount >= 0)
         {
+            var currentLifeSpriteCount = _lifeContainer.GetChildCount();
+
+            if (currentLifeSpriteCount == targetLifeCount) { return; }
+
+            _lifeContainer.Columns = targetLifeCount == 0 ? 1 : targetLifeCount % 6;
+
             // Too many sprites
-            if (lifeSpriteDiff > 0)
+            if (currentLifeSpriteCount > targetLifeCount)
             {
-                for (var i = lifeSpriteDiff - 1; i >= 0; i--)
+                for (var i = currentLifeSpriteCount; i > targetLifeCount; i--)
                 {
-                    _lifeContainer.GetChild(i).QueueFree();
+                    var childIndex = i - 1;
+
+                    // Hide instead of remove last so that extra lives can duplicate
+                    if (childIndex == 0)
+                    {
+                        _lifeContainer.GetChild<TextureRect>(childIndex).Hide();
+                    }
+                    else
+                    {
+                       _lifeContainer.GetChild(childIndex).QueueFree();
+                    }
                 }
-                // Got a new life
             }
-            else if (lifeSpriteDiff < 0)
+            // Got a new life
+            else
             {
-                for (var i = lifeSpriteDiff; i < 0; i++)
+                for (var i = currentLifeSpriteCount; i < targetLifeCount; i++)
                 {
+                    // First sprite always exists so show instead of add
+                    if (i == 0)
+                    {
+                        _lifeContainer.GetChild<TextureRect>(i).Show();
+                    }
+
                     _lifeContainer.AddChild(_baseSprite.Duplicate());
                 }
             }

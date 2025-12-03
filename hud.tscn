@@ -51,11 +51,6 @@ layout_mode = 2
 texture = ExtResource("3_8sq4i")
 stretch_mode = 2
 
-[node name="LifeSprite2" type="TextureRect" parent="GameUI/MarginContainer/VBoxContainer/HBoxContainer/LifeCountGrid"]
-layout_mode = 2
-texture = ExtResource("3_8sq4i")
-stretch_mode = 2
-
 [node name="HighScore" type="Label" parent="GameUI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "0m"
@@ -181,7 +176,6 @@ text = "Quit to Desktop"
 stream = ExtResource("6_1xsix")
 
 [node name="GameOverMenu" type="Node2D" parent="."]
-visible = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GameOverMenu"]
 offset_right = 640.0
@@ -192,7 +186,7 @@ alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="RichTextLabel" type="Label" parent="GameOverMenu/HBoxContainer/VBoxContainer"]
+[node name="GameoverLabel" type="Label" parent="GameOverMenu/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_640wx")
 theme_override_font_sizes/font_size = 32
@@ -221,6 +215,7 @@ theme_override_fonts/font = ExtResource("4_640wx")
 text = "Quit to Desktop"
 
 [node name="PauseMenu" type="Node2D" parent="."]
+visible = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu"]
 offset_right = 640.0
